@@ -1,0 +1,1 @@
+{"status": 200, "texto": "# DiseaseProgrationModel\nAgent based simulation model to propagate the spread of infectious diseases considering social distancing and hospital capacity as the two key parameters. \nTo run the simulation model repast symphony and dependent libraries/packages need to be installed. \n", "erro": "", "ms": 254}

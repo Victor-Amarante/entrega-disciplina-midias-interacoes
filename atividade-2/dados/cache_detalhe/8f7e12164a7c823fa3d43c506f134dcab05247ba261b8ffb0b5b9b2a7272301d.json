@@ -1,0 +1,1 @@
+{"status": 200, "texto": "# social-network-modeling\nSocial network analysis and agent-based simulation based on data from Huffington Post.\n\n## Installation\n1. Create virtualenv with python3\n2. `pip install -r requirements.txt`\n3. `python app.py`\n\n## Huffington Post data\n- Number of authors: 964580 (with facebook_id: 224999)\n", "erro": "", "ms": 303}

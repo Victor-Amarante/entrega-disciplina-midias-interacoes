@@ -1,0 +1,1 @@
+{"status": 200, "texto": "# runtime-observability-dashboard\n\nLightweight runtime observability dashboard for multi-agent workflow monitoring, execution trace visualization, and runtime telemetry.\n\n## Run\n\nOpen `index.html` directly in a browser, or serve locally:\n\n```bash\npython3 -m http.server 8000\n```\n\nThen visit `http://localhost:8000`.\n", "erro": "", "ms": 296}

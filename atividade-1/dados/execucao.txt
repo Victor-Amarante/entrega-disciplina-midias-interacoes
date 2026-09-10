@@ -1,0 +1,61 @@
+começando com 510 candidatos já no depósito
+
+--- hn (intervalo 0.5s) ...
+    +12 novos  (22s, total 522)
+--- huggingface (intervalo 0.7s) ...
+    +2708 novos  (75s, total 3230)
+--- github (intervalo 2.2s) ...
+    +2729 novos  (96s, total 5959)
+--- diretorios (intervalo 1.0s) ...
+    +2 novos  (72s, total 5961)
+--- itchio (intervalo 2.0s) ...
+    +774 novos  (69s, total 6735)
+--- arxiv (intervalo 3.5s) ...
+    +0 novos  (0s, total 6735)
+--- reddit (intervalo 2.0s) ...
+    +0 novos  (0s, total 6735)
+--- producthunt (intervalo 1.0s) ...
+    +0 novos  (0s, total 6735)
+
+novos: 6225 | repetidos (dedup): 10373 | URLs inválidas: 0 | total único: 6735
+começando com 0 candidatos já no depósito
+
+--- hn (intervalo 0.5s) ...
+    +472 novos  (0s, total 472)
+--- huggingface (intervalo 0.7s) ...
+    +2708 novos  (0s, total 3180)
+--- github (intervalo 2.2s) ...
+    +2729 novos  (0s, total 5909)
+--- diretorios (intervalo 1.0s) ...
+    +7776 novos  (0s, total 13685)
+--- itchio (intervalo 2.0s) ...
+    +774 novos  (0s, total 14459)
+--- arxiv (intervalo 3.5s) ...
+começando com 17937 candidatos já no depósito
+
+--- arxiv (intervalo 12.0s) ...
+1950 pré-selecionados | 0 já enriquecidos | 1950 a fazer
+  100/1950  vivos 86 | mortos 14
+  200/1950  vivos 165 | mortos 35
+  300/1950  vivos 256 | mortos 44
+  400/1950  vivos 354 | mortos 46
+1950 pré-selecionados | 284 já enriquecidos | 1666 a fazer
+  100/1666  vivos 86 | mortos 14
+1950 pré-selecionados | 470 já enriquecidos | 1480 a fazer
+  100/1480  vivos 100 | mortos 0
+  200/1480  vivos 200 | mortos 0
+  300/1480  vivos 300 | mortos 0
+  400/1480  vivos 400 | mortos 0
+  500/1480  vivos 492 | mortos 8
+  600/1480  vivos 583 | mortos 17
+  700/1480  vivos 676 | mortos 24
+  800/1480  vivos 761 | mortos 39
+  900/1480  vivos 844 | mortos 56
+  1000/1480  vivos 940 | mortos 60
+  1100/1480  vivos 1005 | mortos 95
+  1200/1480  vivos 1051 | mortos 149
+  1300/1480  vivos 1085 | mortos 215
+  1400/1480  vivos 1165 | mortos 235
+
+verificados 1480 | link vivo (200 + conteúdo): 1245 | morto/erro: 235
+saída: /Users/victor/Desktop/projects/midias-interacoes/atividade-1/dados/enriquecidos.jsonl

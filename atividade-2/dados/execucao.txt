@@ -1,0 +1,40 @@
+começando com 16150 candidatos já no depósito
+
+--- pypi (intervalo 0.8s) ...
+    +13008 novos  (209s, total 29158)
+--- github (intervalo 2.2s) ...
+    +10061 novos  (470s, total 39219)
+--- awesome (intervalo 1.0s) ...
+    +17203 novos  (295s, total 56422)
+--- huggingface (intervalo 0.7s) ...
+    +2227 novos  (35s, total 58649)
+--- hn (intervalo 0.5s) ...
+    +338 novos  (23s, total 58987)
+
+novos: 42837 | repetidos (dedup): 4233 | URLs inválidas: 0 | total único: 58987
+2400 pré-selecionados | 60 já enriquecidos | 2340 a fazer
+  100/2340  instaláveis 100 | com licença 93
+  200/2340  instaláveis 178 | com licença 191
+  300/2340  instaláveis 234 | com licença 291
+  400/2340  instaláveis 289 | com licença 391
+  500/2340  instaláveis 337 | com licença 491
+  600/2340  instaláveis 394 | com licença 578
+  700/2340  instaláveis 455 | com licença 623
+  800/2340  instaláveis 506 | com licença 664
+  900/2340  instaláveis 558 | com licença 713
+  1000/2340  instaláveis 609 | com licença 774
+  1100/2340  instaláveis 690 | com licença 839
+  1200/2340  instaláveis 790 | com licença 912
+  1300/2340  instaláveis 890 | com licença 970
+  1400/2340  instaláveis 967 | com licença 1042
+  1500/2340  instaláveis 1006 | com licença 1092
+  1600/2340  instaláveis 1064 | com licença 1154
+  1700/2340  instaláveis 1136 | com licença 1231
+  1800/2340  instaláveis 1236 | com licença 1331
+  1900/2340  instaláveis 1336 | com licença 1431
+  2000/2340  instaláveis 1436 | com licença 1528
+  2100/2340  instaláveis 1529 | com licença 1606
+  2200/2340  instaláveis 1535 | com licença 1662
+  2300/2340  instaláveis 1561 | com licença 1709
+
+verificados 2340 | instaláveis 1586 | com licença declarada 1740

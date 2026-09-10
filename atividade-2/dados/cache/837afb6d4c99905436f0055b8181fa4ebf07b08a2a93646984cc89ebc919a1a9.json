@@ -1,0 +1,1 @@
+{"status": 200, "texto": "# Usage\n\n1. Start `tmux`\n2. Open `claude` in the project root. (codex also works by simply replacing model name in prompt)\n3. Copy and send this prompt\n4. Communicate with **A0 only** (your original pane), A1 agent will be controlled by A0.\n"}

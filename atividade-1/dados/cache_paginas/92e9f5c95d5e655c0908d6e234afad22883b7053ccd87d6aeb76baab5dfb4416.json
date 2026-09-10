@@ -1,0 +1,1 @@
+{"status": 403, "url_final": "https://agent-kernel.tech/", "html": "Blocked request. This host (\"agent-kernel.tech\") is not allowed.\nTo allow this host, add \"agent-kernel.tech\" to `server.allowedHosts` in vite.config.js.", "erro": "", "ms": 1591}

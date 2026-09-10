@@ -1,0 +1,1 @@
+{"status": 200, "texto": "# Set of utilities that help to track INotifyPropertyChange, DependencyProperty, ObservableCollection, etc.\n      \nHelps to write expressions like: \n``` csharp\n        myViewModel.Track(vm => vm.A.B.C.Name) \n```\nand be sure\n        to get notified whenewer `vm.A`, or `A.B`, or `C.Name` change.      \n", "erro": "", "ms": 299}

@@ -1,0 +1,1 @@
+{"status": 200, "texto": "# slopin\n\nTo install dependencies:\n\n```bash\nbun install\n```\n\nTo run:\n\n```bash\nbun run index.ts\n```\n\nThis project was created using `bun init` in bun v1.2.21. [Bun](https://bun.com) is a fast all-in-one JavaScript runtime.\n", "erro": "", "ms": 326}

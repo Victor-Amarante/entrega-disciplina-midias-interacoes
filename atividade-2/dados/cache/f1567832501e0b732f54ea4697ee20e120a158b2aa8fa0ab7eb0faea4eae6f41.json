@@ -1,0 +1,1 @@
+{"status": 200, "texto": "# snake.ai\nSnake game + Artificial Intelligence / Machine Learning = Awesome project\n\nFirst snake game coded in JavaScript without using canvas, and with \"acceptable\" graphics. My goal is to make a clone of Snake EX2,\nfrom NOKIA, and add some AI to it, as well as introducing new game modes.\n"}

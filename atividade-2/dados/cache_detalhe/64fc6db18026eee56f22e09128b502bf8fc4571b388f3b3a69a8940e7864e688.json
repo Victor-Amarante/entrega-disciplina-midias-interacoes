@@ -1,0 +1,1 @@
+{"status": 200, "texto": "# CArs \u2014\u00a0Cellular Automata (CA) in Rust\n\nRust crate for experimenting with cellular automata. Conway's game of life and the elementary cellular automata are implemented out of the box. ", "erro": "", "ms": 281}
