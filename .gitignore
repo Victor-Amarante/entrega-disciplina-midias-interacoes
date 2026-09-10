@@ -13,3 +13,5 @@ wheels/
 .env
 atividade-1/.env
 atividade-1/dados/cache/
+
+.DS_Store
