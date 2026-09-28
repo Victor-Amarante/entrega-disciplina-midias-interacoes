@@ -3,7 +3,9 @@
     "allow": [
       "Bash(.venv/bin/python atividade-1/validar_descricoes.py)",
       "Bash(.venv/bin/python -c ' *)",
-      "Bash(.venv/bin/python atividade-1/montar.py --quantos 500)"
+      "Bash(.venv/bin/python atividade-1/montar.py --quantos 500)",
+      "WebFetch(domain:arxiv.org)",
+      "WebSearch"
     ]
   }
 }
