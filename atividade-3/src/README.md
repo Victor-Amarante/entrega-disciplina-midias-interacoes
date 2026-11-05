@@ -6,7 +6,9 @@ Experimento derivado da ideia 2 de [`../ideias-sociedades-simuladas.md`](../idei
 que testa as disrupções D3 e os efeitos e5 e e6 do mapa
 [`../tendencia-sociedades-simuladas.md`](../tendencia-sociedades-simuladas.md).
 
-**Link:** `[A PREENCHER depois do deploy]`
+**Link:** https://caca-respondente.onrender.com/ (para criar uma sala: https://caca-respondente.onrender.com/host/)
+
+O servidor gratuito dorme quando ninguém usa; o primeiro acesso pode levar cerca de um minuto.
 
 ## O que é
 
