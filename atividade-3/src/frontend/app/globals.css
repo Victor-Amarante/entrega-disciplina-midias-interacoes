@@ -1,0 +1,181 @@
+:root {
+  --fundo: #0f1420;
+  --superficie: #171e2e;
+  --superficie-2: #1f2840;
+  --borda: #2c3754;
+  --texto: #eef1f8;
+  --texto-suave: #9aa5bf;
+  --destaque: #ffd166;
+  --humano: #3dd6b5;
+  --maquina: #ff7a59;
+  --perigo: #ff5d73;
+  --raio: 14px;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  background: var(--fundo);
+  color: var(--texto);
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: var(--destaque); }
+h1, h2, h3 { line-height: 1.15; margin: 0 0 .5em; }
+p { margin: 0 0 .75em; }
+
+.celular {
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 20px 16px 96px;
+  min-height: 100dvh;
+}
+
+.cartao {
+  background: var(--superficie);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio);
+  padding: 16px;
+}
+.cartao + .cartao { margin-top: 12px; }
+.grade > .cartao, .coluna > .cartao { margin-top: 0; }
+
+.suave { color: var(--texto-suave); }
+.pequeno { font-size: .875rem; }
+.centro { text-align: center; }
+.linha { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.coluna { display: flex; flex-direction: column; gap: 12px; }
+.espaco { flex: 1; }
+
+.botao {
+  appearance: none;
+  border: 0;
+  border-radius: 12px;
+  padding: 14px 18px;
+  font: inherit;
+  font-weight: 650;
+  cursor: pointer;
+  background: var(--destaque);
+  color: #1b1b1b;
+  transition: transform .06s ease, opacity .2s;
+}
+.botao:active { transform: scale(.98); }
+.botao:disabled { opacity: .45; cursor: default; }
+.botao.secundario { background: var(--superficie-2); color: var(--texto); border: 1px solid var(--borda); }
+.botao.humano { background: var(--humano); color: #062a22; }
+.botao.maquina { background: var(--maquina); color: #2b0d05; }
+.botao.cheio { width: 100%; }
+.botao.pequeno { padding: 8px 12px; font-size: .875rem; border-radius: 10px; }
+
+input, textarea, select {
+  width: 100%;
+  font: inherit;
+  color: var(--texto);
+  background: var(--superficie-2);
+  border: 1px solid var(--borda);
+  border-radius: 12px;
+  padding: 12px 14px;
+}
+textarea { resize: vertical; min-height: 72px; }
+input:focus, textarea:focus { outline: 2px solid var(--destaque); outline-offset: 1px; }
+label { display: block; font-weight: 600; margin-bottom: 6px; }
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: .8rem;
+  font-weight: 600;
+  background: var(--superficie-2);
+  border: 1px solid var(--borda);
+  color: var(--texto-suave);
+}
+button.chip { cursor: pointer; font-family: inherit; }
+.chip.ativo { background: var(--destaque); color: #1b1b1b; border-color: var(--destaque); }
+.chip.humano { color: var(--humano); border-color: color-mix(in srgb, var(--humano) 50%, transparent); }
+.chip.maquina { color: var(--maquina); border-color: color-mix(in srgb, var(--maquina) 50%, transparent); }
+
+.erro { color: var(--perigo); font-weight: 600; }
+.aviso {
+  background: color-mix(in srgb, var(--destaque) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--destaque) 45%, transparent);
+  border-radius: 12px;
+  padding: 10px 12px;
+  font-size: .9rem;
+}
+
+.titulo-fase {
+  font-size: .8rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--destaque);
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.barra-inferior {
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+  background: linear-gradient(transparent, var(--fundo) 30%);
+}
+.barra-inferior > div { max-width: 520px; margin: 0 auto; }
+
+.resposta {
+  display: block;
+  width: 100%;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+  background: var(--superficie-2);
+  border: 1px solid var(--borda);
+  border-radius: 12px;
+  padding: 10px 12px;
+  cursor: pointer;
+}
+.resposta + .resposta { margin-top: 8px; }
+.resposta .pergunta { font-size: .8rem; color: var(--texto-suave); margin-bottom: 2px; }
+.resposta.pista { border-color: var(--maquina); box-shadow: 0 0 0 1px var(--maquina) inset; }
+
+.progresso { height: 6px; border-radius: 99px; background: var(--superficie-2); overflow: hidden; }
+.progresso > div { height: 100%; background: var(--destaque); transition: width .3s; }
+
+.carregando { display: grid; place-items: center; min-height: 60dvh; color: var(--texto-suave); }
+
+@keyframes pulso { 50% { opacity: .4; } }
+.pulsando { animation: pulso 1.4s ease-in-out infinite; }
+
+/* ---- painel (telão) ---- */
+
+.painel { padding: 20px 28px 40px; max-width: 1400px; margin: 0 auto; }
+.painel-topo {
+  display: flex; gap: 16px; align-items: center; flex-wrap: wrap;
+  padding-bottom: 16px; border-bottom: 1px solid var(--borda); margin-bottom: 24px;
+}
+.passos { display: flex; gap: 6px; flex-wrap: wrap; }
+.passo { padding: 6px 10px; border-radius: 8px; font-size: .85rem; color: var(--texto-suave); background: var(--superficie); border: 1px solid var(--borda); cursor: pointer; font-family: inherit; }
+.passo.atual { background: var(--destaque); color: #1b1b1b; border-color: var(--destaque); font-weight: 700; }
+.passo.feito { color: var(--texto); }
+
+.grade { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+.numero-grande { font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 800; line-height: 1; }
+.rotulo-numero { color: var(--texto-suave); margin-top: 6px; }
+
+.tabela { width: 100%; border-collapse: collapse; }
+.tabela th, .tabela td { text-align: left; padding: 10px 8px; border-bottom: 1px solid var(--borda); vertical-align: top; }
+.tabela th { color: var(--texto-suave); font-weight: 600; font-size: .85rem; }
+
+.barra-voto { height: 44px; border-radius: 10px; background: var(--superficie-2); overflow: hidden; display: flex; }
+.barra-voto > div { height: 100%; transition: width .4s ease; display: flex; align-items: center; font-weight: 700; white-space: nowrap; overflow: hidden; }
+.barra-voto > div:not(:empty) { padding: 0 12px; }
+
+@media (max-width: 760px) {
+  .painel { padding: 16px; }
+  .painel .grade { grid-template-columns: 1fr !important; }
+}

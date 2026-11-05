@@ -1,0 +1,7 @@
+**/node_modules
+**/.next
+**/out
+**/.venv
+**/dados
+**/__pycache__
+**/.env
