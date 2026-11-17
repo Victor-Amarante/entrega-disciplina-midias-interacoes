@@ -6,8 +6,6 @@ export const NOME_FASE: Record<Fase, string> = {
   respostas: "Questionário",
   cacada: "Caçada",
   placar: "Placar",
-  enquete: "Enquete",
-  ataque: "Ataque",
 };
 
 export const TIPOS: { tipo: TipoPergunta; nome: string; dica: string; exemplo: string }[] = [

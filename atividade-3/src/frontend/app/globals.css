@@ -9,6 +9,7 @@
   --humano: #3dd6b5;
   --maquina: #ff7a59;
   --perigo: #ff5d73;
+  --certo: #8ee08a;
   --raio: 14px;
   color-scheme: dark;
 }
@@ -171,9 +172,26 @@ button.chip { cursor: pointer; font-family: inherit; }
 .tabela th, .tabela td { text-align: left; padding: 10px 8px; border-bottom: 1px solid var(--borda); vertical-align: top; }
 .tabela th { color: var(--texto-suave); font-weight: 600; font-size: .85rem; }
 
-.barra-voto { height: 44px; border-radius: 10px; background: var(--superficie-2); overflow: hidden; display: flex; }
-.barra-voto > div { height: 100%; transition: width .4s ease; display: flex; align-items: center; font-weight: 700; white-space: nowrap; overflow: hidden; }
-.barra-voto > div:not(:empty) { padding: 0 12px; }
+.leituras { margin: 0; padding-left: 22px; font-size: 1.1rem; }
+.leituras li + li { margin-top: 8px; }
+
+.matriz { display: grid; grid-template-columns: auto 1fr 1fr; gap: 8px; }
+.matriz-cabeca { color: var(--texto-suave); font-size: .85rem; font-weight: 600; align-self: center; }
+.caixa { border-radius: 12px; padding: 12px; background: var(--superficie-2); border: 1px solid var(--borda); }
+.caixa strong { display: block; font-size: 2rem; line-height: 1.1; }
+.caixa.certo { border-color: color-mix(in srgb, var(--certo) 60%, transparent); }
+.caixa.errado { border-color: color-mix(in srgb, var(--perigo) 60%, transparent); }
+
+.rolagem { overflow-x: auto; }
+.auditoria th, .auditoria td { text-align: center; white-space: nowrap; padding: 8px 6px; }
+.auditoria th:first-child, .auditoria td:first-child { text-align: left; }
+.auditoria .celula { font-weight: 700; border-radius: 6px; }
+.auditoria .celula.certo { background: color-mix(in srgb, var(--certo) 16%, transparent); }
+.auditoria .celula.errado { background: color-mix(in srgb, var(--perigo) 22%, transparent); }
+.auditoria tfoot td { color: var(--texto-suave); font-size: .85rem; border-bottom: 0; }
+
+details > summary { cursor: pointer; color: var(--destaque); font-weight: 600; }
+
 
 @media (max-width: 760px) {
   .painel { padding: 16px; }

@@ -42,7 +42,6 @@ export function Entrada({ painel }: PropsPainel) {
             <li>Todo mundo responde ao questionário, junto com {painel.config.n_agentes} agentes de IA.</li>
             <li>Cada um recebe cartões anônimos e diz: gente ou máquina?</li>
             <li>Placar: qual armadilha funcionou, e quem foi acusado injustamente.</li>
-            <li>Enquete: quantos bots bastam para virar o resultado da turma.</li>
           </ol>
         </div>
       </div>

@@ -1,9 +1,8 @@
 // Formas que o backend devolve (app/servicos/visoes.py).
 
-export type Fase = "lobby" | "armadilhas" | "respostas" | "cacada" | "placar" | "enquete" | "ataque";
+export type Fase = "lobby" | "armadilhas" | "respostas" | "cacada" | "placar";
 export type TipoPergunta = "generica" | "atencao" | "local" | "impossivel" | "vivencia";
 export type Veredito = "humano" | "maquina";
-export type Opcao = "a" | "b";
 
 export interface Cartao {
   id: string;
@@ -28,7 +27,7 @@ export interface VisaoParticipante {
   minhas_respostas?: Record<string, string>;
   cartoes?: Cartao[];
   meu_resultado?: { acertos: number; total: number };
-  enquete?: { pergunta: string; opcao_a: string; opcao_b: string; meu_voto: Opcao | null };
+  acerto_turma?: number | null;
 }
 
 export interface PerguntaPainel {
@@ -52,7 +51,9 @@ export interface AgentePainel {
 }
 
 export interface CartaoRevelado {
+  id: string;
   rotulo: string;
+  verdade: Veredito;
   votos_maquina: number;
   votos: number;
   persona: { nome: string; resumo: string } | null;
@@ -60,8 +61,23 @@ export interface CartaoRevelado {
   respostas: { pergunta: string; resposta: string }[];
 }
 
+export interface VereditoAuditado {
+  veredito: Veredito;
+  acertou: boolean;
+  pista: number | null; // número da pergunta (P1, P2…) marcada como pista
+}
+
+export interface JogadorAuditado {
+  apelido: string;
+  cartoes: string[];
+  vereditos: Record<string, VereditoAuditado>;
+  acertos: number;
+  total: number;
+}
+
 export interface Placar {
   julgamentos: number;
+  acertos: number;
   taxa_acerto: number | null;
   taxa_deteccao: number | null;
   taxa_falsa_acusacao: number | null;
@@ -69,8 +85,12 @@ export interface Placar {
   deteccao_sem_busca: number | null;
   n_julgamentos_agentes: number;
   n_julgamentos_humanos: number;
+  n_julgamentos_com_busca: number;
+  n_julgamentos_sem_busca: number;
+  matriz: { agentes_pegos: number; agentes_passaram: number; humanos_acusados: number; humanos_reconhecidos: number };
   armadilhas: {
     id: string;
+    numero: number;
     texto: string;
     tipo: TipoPergunta;
     tipo_rotulo: string;
@@ -79,24 +99,11 @@ export interface Placar {
     acusou_humanos: number;
     saldo: number;
   }[];
-  detetives: { apelido: string; acertos: number; total: number }[];
   agente_mais_convincente: CartaoRevelado | null;
   humano_mais_suspeito: CartaoRevelado | null;
   custo_medio_agente_usd: number | null;
-}
-
-export interface Ataque {
-  votos_a: number;
-  votos_b: number;
-  alvo: Opcao;
-  necessarios: number;
-  taxa_deteccao: number | null;
-  necessarios_com_defesa: number | null;
-  humanos_barrados: number;
-  custo_medio_agente_usd: number | null;
-  custo_ataque_usd: number | null;
-  status_sinteticos: "parado" | "gerando" | "pronto" | "erro";
-  sinteticos: { opcao: Opcao; justificativa: string }[];
+  auditoria: { cartoes: CartaoRevelado[]; jogadores: JogadorAuditado[] };
+  leituras: string[];
 }
 
 export interface VisaoPainel {
@@ -112,7 +119,5 @@ export interface VisaoPainel {
   respostas_humanas: number;
   agentes: AgentePainel[];
   cacada: { julgamentos: number; juizes: number; juizes_concluidos: number; cartoes_no_jogo: number };
-  enquete: { pergunta: string; opcao_a: string; opcao_b: string; votos: number };
   placar?: Placar;
-  ataque?: Ataque;
 }

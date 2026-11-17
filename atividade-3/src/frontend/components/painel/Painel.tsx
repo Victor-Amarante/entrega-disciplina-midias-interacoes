@@ -12,8 +12,6 @@ import { ArmadilhasPainel } from "./ArmadilhasPainel";
 import { RespostasPainel } from "./RespostasPainel";
 import { CacadaPainel } from "./CacadaPainel";
 import { PlacarPainel } from "./PlacarPainel";
-import { EnquetePainel } from "./EnquetePainel";
-import { AtaquePainel } from "./AtaquePainel";
 
 const AVISO_AO_ENTRAR: Partial<Record<Fase, string>> = {
   respostas: "Fechar as armadilhas? O questionário fica congelado e os agentes começam a responder.",
@@ -124,8 +122,6 @@ export function Painel({ codigo }: { codigo: string }) {
       {painel.fase === "respostas" && <RespostasPainel {...props} />}
       {painel.fase === "cacada" && <CacadaPainel {...props} />}
       {painel.fase === "placar" && <PlacarPainel {...props} />}
-      {painel.fase === "enquete" && <EnquetePainel {...props} />}
-      {painel.fase === "ataque" && <AtaquePainel {...props} />}
     </main>
   );
 }

@@ -2,7 +2,7 @@
 
 from pydantic import BaseModel, Field
 
-from ..dominio.modelos import ConfigSala, Fase, Opcao, TipoPergunta, Veredito
+from ..dominio.modelos import ConfigSala, Fase, TipoPergunta, Veredito
 
 
 class NovaSala(BaseModel):
@@ -28,10 +28,6 @@ class NovoJulgamento(BaseModel):
     pista_id: str | None = None
 
 
-class Voto(BaseModel):
-    opcao: Opcao
-
-
 class MudancaDeFase(BaseModel):
     fase: Fase
 
@@ -39,9 +35,3 @@ class MudancaDeFase(BaseModel):
 class PerguntaDoInstituto(BaseModel):
     texto: str = Field(min_length=5, max_length=300)
     tipo: TipoPergunta = "generica"
-
-
-class EdicaoEnquete(BaseModel):
-    pergunta: str = Field(min_length=5, max_length=200)
-    opcao_a: str = Field(min_length=1, max_length=60)
-    opcao_b: str = Field(min_length=1, max_length=60)

@@ -17,8 +17,6 @@ para pegar bots. Essas perguntas viram um questionário que a turma responde ao 
 agentes de IA com persona de desenvolvedor de software; metade deles pode pesquisar na web antes de responder. Depois,
 cada pessoa recebe cartões anônimos com as respostas de alguém, humano ou agente, e dá o veredito: gente
 ou máquina. O placar mostra qual armadilha pegou mais agentes e quantos humanos foram acusados por engano.
-No segundo ato a turma vota numa enquete, e o telão mostra quantas respostas sintéticas bastam para virar
-o resultado, quanto isso custa e se as armadilhas do primeiro ato teriam barrado o ataque.
 
 ## A pergunta sobre o futuro
 
@@ -30,7 +28,7 @@ de máquina numa pesquisa? E quanto custa virar um resultado?
 Respondentes sintéticos autônomos baseados em LLM, como o agente de Westwood (PNAS, 2025), que passou em 99,8%
 das checagens de atenção. Cada agente aqui recebe uma persona longa e concreta de desenvolvedor de software (cargo, stack, empresa, rotina, ferramentas), a instrução
 de parecer humano e, em parte dos casos, busca na web. A persona é de dev, e não de aluno, porque fica mais perto da realidade da turma e porque o ofício é bem documentado na web, o que dá ao agente com busca material para sustentar a persona. O modelo é o Claude
-Haiku (`claude-haiku-5-5`), rápido e barato, o que também deixa o custo do ataque mais realista.
+Haiku (`claude-haiku-5-5`), rápido e barato, o que também deixa o custo de cada respondente sintético mais realista.
 
 **Por que não dá com tecnologia madura.** Os bots de formulário que existiam até pouco tempo atrás
 (scripts, preenchimento aleatório, respostas copiadas) caem justamente nas checagens de atenção e nas
@@ -48,8 +46,7 @@ no estilo de uma persona, consultando a web se precisar. As defesas contra isso 
 4. **Questionário:** responda às perguntas como você mesmo.
 5. **Caçada:** para cada cartão, toque na resposta que te deu a pista (se houver) e escolha *Humano* ou
    *Máquina*.
-6. **Placar:** veja quantos você acertou e quem era quem nos seus cartões.
-7. **Enquete:** vote. Depois olhe o telão.
+6. **Placar:** veja quantos você acertou, o que você disse em cada cartão, quem era quem e a pista que marcou.
 
 ### Para quem apresenta (projetor)
 
@@ -60,9 +57,11 @@ no estilo de uma persona, consultando a web se precisar. As defesas contra isso 
    atenção, para servir de comparação.
 4. Ao abrir o questionário, os agentes começam a responder em segundo plano. Espere todos ficarem prontos
    (✓) antes de abrir a caçada. Se algum der erro, clique em *Tentar de novo*.
-5. No ataque, clique em **Injetar respostas sintéticas**.
+5. No placar, o telão resume o resultado em frases, mostra onde caiu cada veredito (agente pego, agente que
+   passou, humano acusado, humano reconhecido), quais perguntas entregaram a máquina e uma grade com o veredito
+   de cada jogador em cada cartão, para conferir o placar.
 6. Ao final, clique em **⬇ Dados** para baixar tudo o que aconteceu na sala (armadilhas, respostas,
-   personas, vereditos com a pista marcada e votos), em JSON e sem os tokens de acesso.
+   personas, vereditos com a pista marcada), em JSON e sem os tokens de acesso.
 
 O painel só funciona no navegador em que a sala foi criada.
 
@@ -122,7 +121,7 @@ src/
 │       ├── armazenamento.py salas em memória + JSON
 │       ├── dominio/         modelos do estado da sala
 │       ├── api/             rotas do participante e do apresentador
-│       └── servicos/        regras do jogo, agentes, personas, placar, enquete
+│       └── servicos/        regras do jogo, agentes, personas, placar
 └── frontend/                Next.js (exportado como site estático)
     ├── app/                 páginas: início, sala, criar sala, painel
     ├── components/

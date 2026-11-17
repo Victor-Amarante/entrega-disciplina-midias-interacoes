@@ -13,7 +13,6 @@ import { Armadilhas } from "./Armadilhas";
 import { Questionario } from "./Questionario";
 import { Cacada } from "./Cacada";
 import { Resultado } from "./Resultado";
-import { Votacao } from "./Votacao";
 
 export function Jogo({ codigo }: { codigo: string }) {
   const [token, setToken] = useState<string | null | undefined>(undefined);
@@ -73,7 +72,6 @@ export function Jogo({ codigo }: { codigo: string }) {
       {visao.fase === "respostas" && <Questionario {...props} />}
       {visao.fase === "cacada" && <Cacada {...props} />}
       {visao.fase === "placar" && <Resultado {...props} />}
-      {(visao.fase === "enquete" || visao.fase === "ataque") && <Votacao {...props} />}
     </main>
   );
 }

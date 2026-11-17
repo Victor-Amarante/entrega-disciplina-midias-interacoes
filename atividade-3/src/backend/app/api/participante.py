@@ -8,7 +8,7 @@ from ..armazenamento import novo_id
 from ..dominio.modelos import Julgamento, Participante, Pergunta, Respondente
 from ..servicos import jogo, visoes
 from .deps import ArmazemDep, ParticipanteDep, SalaDep, exigir_fase, exigir_questionario_aberto
-from .esquemas import Entrada, NovaArmadilha, NovoJulgamento, Respostas, Voto
+from .esquemas import Entrada, NovaArmadilha, NovoJulgamento, Respostas
 
 rotas = APIRouter(prefix="/salas/{codigo}", tags=["participante"])
 
@@ -74,13 +74,5 @@ async def julgar(corpo: NovoJulgamento, s: SalaDep, eu: ParticipanteDep, arm: Ar
         if not (j.juiz_id == eu.id and j.respondente_id == corpo.respondente_id)
     ]
     s.julgamentos.append(Julgamento(juiz_id=eu.id, **corpo.model_dump()))
-    arm.salvar(s)
-    return {"ok": True}
-
-
-@rotas.post("/voto")
-async def votar(corpo: Voto, s: SalaDep, eu: ParticipanteDep, arm: ArmazemDep):
-    exigir_fase(s, "enquete")
-    s.enquete.votos[eu.id] = corpo.opcao
     arm.salvar(s)
     return {"ok": True}

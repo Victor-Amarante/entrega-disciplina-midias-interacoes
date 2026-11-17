@@ -1,7 +1,7 @@
 "use client";
 
 import { pct, usd } from "@/lib/textos";
-import type { CartaoRevelado } from "@/lib/tipos";
+import type { CartaoRevelado, Placar, VereditoAuditado } from "@/lib/tipos";
 import type { PropsPainel } from "./props";
 
 export function PlacarPainel({ painel }: PropsPainel) {
@@ -11,48 +11,66 @@ export function PlacarPainel({ painel }: PropsPainel) {
 
   return (
     <div className="coluna" style={{ gap: 20 }}>
-      <div className="grade">
-        <Numero valor={pct(p.taxa_acerto)} rotulo="de acerto da turma (o acaso dá 50%)" />
-        <Numero valor={pct(p.taxa_deteccao)} rotulo={`dos vereditos sobre agentes disseram "máquina"`} cor="var(--maquina)" />
-        <Numero valor={pct(p.taxa_falsa_acusacao)} rotulo="dos vereditos sobre humanos os acusaram de máquina" cor="var(--perigo)" />
-      </div>
-
-      <div className="grade">
-        <Numero valor={pct(p.deteccao_sem_busca)} rotulo="detecção dos agentes sem busca" pequeno />
-        <Numero valor={pct(p.deteccao_com_busca)} rotulo="detecção dos agentes com busca na web 🔎" pequeno />
-        <Numero valor={usd(p.custo_medio_agente_usd)} rotulo="custo médio de um respondente sintético" pequeno />
-      </div>
-
-      <div className="cartao">
-        <h3>Qual armadilha pegou máquina?</h3>
-        <p className="suave pequeno">
-          Conta quantas vezes a resposta àquela pergunta foi marcada como pista num veredito de “máquina”, separando
-          quando o respondente era mesmo um agente e quando era um humano acusado.
-        </p>
-        <table className="tabela">
-          <thead>
-            <tr>
-              <th>Pergunta</th>
-              <th>Tipo</th>
-              <th>Pegou agente</th>
-              <th>Acusou humano</th>
-            </tr>
-          </thead>
-          <tbody>
-            {p.armadilhas.map((a) => (
-              <tr key={a.id}>
-                <td>
-                  {a.texto}
-                  <div className="suave pequeno">{a.autor}</div>
-                </td>
-                <td><span className="chip">{a.tipo_rotulo}</span></td>
-                <td style={{ color: "var(--maquina)", fontWeight: 700 }}>{a.pegou_agentes}</td>
-                <td style={{ color: "var(--perigo)", fontWeight: 700 }}>{a.acusou_humanos}</td>
-              </tr>
+      {p.leituras.length > 0 && (
+        <div className="cartao">
+          <h3>O que o placar diz</h3>
+          <ul className="leituras">
+            {p.leituras.map((l, i) => (
+              <li key={i}>{l}</li>
             ))}
-          </tbody>
-        </table>
+          </ul>
+        </div>
+      )}
+
+      <div className="grade" style={{ alignItems: "start" }}>
+        <Matriz p={p} />
+        <div className="coluna">
+          <Numero
+            valor={pct(p.taxa_acerto)}
+            rotulo="de acerto da turma"
+            detalhe={`${p.acertos} de ${p.julgamentos} vereditos certos. Chutando, daria uns 50%.`}
+          />
+          <div className="grade">
+            <Numero
+              valor={pct(p.taxa_deteccao)}
+              rotulo="dos agentes foram pegos"
+              detalhe={`${p.matriz.agentes_pegos} de ${p.n_julgamentos_agentes} vereditos. Quanto maior, melhor.`}
+              cor="var(--maquina)"
+              pequeno
+            />
+            <Numero
+              valor={pct(p.taxa_falsa_acusacao)}
+              rotulo="dos humanos foram acusados"
+              detalhe={`${p.matriz.humanos_acusados} de ${p.n_julgamentos_humanos} vereditos. Quanto menor, melhor.`}
+              cor="var(--perigo)"
+              pequeno
+            />
+          </div>
+        </div>
       </div>
+
+      <div className="grade">
+        <Numero
+          valor={pct(p.deteccao_sem_busca)}
+          rotulo="agentes sem busca pegos"
+          detalhe={`em ${p.n_julgamentos_sem_busca} vereditos`}
+          pequeno
+        />
+        <Numero
+          valor={pct(p.deteccao_com_busca)}
+          rotulo="agentes com busca na web 🔎 pegos"
+          detalhe={`em ${p.n_julgamentos_com_busca} vereditos`}
+          pequeno
+        />
+        <Numero
+          valor={usd(p.custo_medio_agente_usd)}
+          rotulo="custo médio de um respondente sintético"
+          detalhe="o questionário inteiro, ao preço de API de hoje"
+          pequeno
+        />
+      </div>
+
+      <Armadilhas p={p} />
 
       <div className="grade" style={{ alignItems: "start" }}>
         {p.agente_mais_convincente && (
@@ -61,28 +79,210 @@ export function PlacarPainel({ painel }: PropsPainel) {
         {p.humano_mais_suspeito && (
           <Revelado titulo="O humano mais acusado de ser máquina" cartao={p.humano_mais_suspeito} cor="var(--humano)" />
         )}
-        {p.detetives.length > 0 && (
-          <div className="cartao">
-            <h3>Melhores detetives</h3>
-            {p.detetives.map((d, i) => (
-              <div key={d.apelido + i} className="linha" style={{ padding: "6px 0" }}>
-                <span>{i + 1}. {d.apelido}</span>
-                <span className="espaco" />
-                <strong>{d.acertos}/{d.total}</strong>
-              </div>
-            ))}
-          </div>
-        )}
+      </div>
+
+      <Auditoria p={p} />
+    </div>
+  );
+}
+
+function Matriz({ p }: { p: Placar }) {
+  const m = p.matriz;
+  return (
+    <div className="cartao">
+      <h3>Onde caiu cada veredito</h3>
+      <p className="suave pequeno">
+        Cada cartão julgado entra numa destas caixas. Nas marcadas com ✓ a turma acertou; nas com ✗, errou.
+      </p>
+      <div className="matriz">
+        <span />
+        <span className="matriz-cabeca">disseram 🤖 máquina</span>
+        <span className="matriz-cabeca">disseram 🧑 humano</span>
+        <span className="matriz-cabeca">era agente</span>
+        <Caixa n={m.agentes_pegos} rotulo="agentes pegos" certo />
+        <Caixa n={m.agentes_passaram} rotulo="agentes que passaram por gente" />
+        <span className="matriz-cabeca">era humano</span>
+        <Caixa n={m.humanos_acusados} rotulo="humanos acusados de máquina" />
+        <Caixa n={m.humanos_reconhecidos} rotulo="humanos reconhecidos" certo />
       </div>
     </div>
   );
 }
 
-function Numero({ valor, rotulo, cor, pequeno }: { valor: string; rotulo: string; cor?: string; pequeno?: boolean }) {
+function Caixa({ n, rotulo, certo }: { n: number; rotulo: string; certo?: boolean }) {
+  return (
+    <div className={`caixa ${certo ? "certo" : "errado"}`}>
+      <strong>{n}</strong>
+      <span className="pequeno">
+        {certo ? "✓" : "✗"} {rotulo}
+      </span>
+    </div>
+  );
+}
+
+function leituraArmadilha(pegou: number, acusou: number): string {
+  if (!pegou && !acusou) return "ninguém apontou";
+  if (pegou > acusou) return "boa armadilha";
+  if (acusou > pegou) return "confundiu";
+  return "empate";
+}
+
+function Armadilhas({ p }: { p: Placar }) {
+  return (
+    <div className="cartao">
+      <h3>Qual pergunta entregou a máquina?</h3>
+      <p className="suave pequeno">
+        Quem disse “máquina” marcou a resposta que deu a pista. <em>Pegou agente</em> conta as vezes em que a pista
+        estava certa; <em>acusou humano</em>, as vezes em que ela levou a acusar uma pessoa. Uma boa armadilha pega
+        agentes sem acusar humanos.
+      </p>
+      <div className="rolagem">
+        <table className="tabela">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Pergunta</th>
+              <th>Tipo</th>
+              <th>Pegou agente</th>
+              <th>Acusou humano</th>
+              <th>Leitura</th>
+            </tr>
+          </thead>
+          <tbody>
+            {p.armadilhas.map((a) => (
+              <tr key={a.id}>
+                <td className="suave">P{a.numero}</td>
+                <td>
+                  {a.texto}
+                  <div className="suave pequeno">{a.autor}</div>
+                </td>
+                <td><span className="chip">{a.tipo_rotulo}</span></td>
+                <td style={{ color: "var(--maquina)", fontWeight: 700 }}>{a.pegou_agentes}</td>
+                <td style={{ color: "var(--perigo)", fontWeight: 700 }}>{a.acusou_humanos}</td>
+                <td className="pequeno">{leituraArmadilha(a.pegou_agentes, a.acusou_humanos)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}
+
+function Auditoria({ p }: { p: Placar }) {
+  const { cartoes, jogadores } = p.auditoria;
+  // O backend manda os agentes primeiro, depois os humanos.
+  const nAgentes = cartoes.filter((c) => c.verdade === "maquina").length;
+  return (
+    <div className="cartao">
+      <h3>Todos os vereditos</h3>
+      <p className="suave pequeno">
+        Cada linha é um jogador; cada coluna, um cartão. 🤖 = disse máquina, 🧑 = disse humano. Verde acertou, vermelho
+        errou. P3 é a pergunta marcada como pista. Vazio: o cartão não caiu para essa pessoa; “·”: caiu, mas ficou sem
+        veredito.
+      </p>
+      <div className="rolagem">
+        <table className="tabela auditoria">
+          <thead>
+            <tr>
+              <th colSpan={2}></th>
+              {nAgentes > 0 && (
+                <th colSpan={nAgentes} style={{ color: "var(--maquina)" }}>
+                  🤖 eram agentes
+                </th>
+              )}
+              {cartoes.length > nAgentes && (
+                <th colSpan={cartoes.length - nAgentes} style={{ color: "var(--humano)" }}>
+                  🧑 eram humanos
+                </th>
+              )}
+            </tr>
+            <tr>
+              <th>Jogador</th>
+              <th>Acertos</th>
+              {cartoes.map((c) => (
+                <th key={c.id} title={c.persona ? `${c.persona.nome}${c.com_busca ? " · com busca" : ""}` : "humano"}>
+                  #{c.rotulo}
+                  <div>
+                    <span className={`chip ${c.verdade}`}>
+                      {c.verdade === "maquina" ? `🤖${c.com_busca ? "🔎" : ""}` : "🧑"}
+                    </span>
+                  </div>
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {jogadores.map((j, i) => (
+              <tr key={j.apelido + i}>
+                <td>{j.apelido}</td>
+                <td>
+                  <strong>{j.acertos}/{j.total}</strong>
+                </td>
+                {cartoes.map((c) => (
+                  <Celula key={c.id} recebeu={j.cartoes.includes(c.id)} v={j.vereditos[c.id]} />
+                ))}
+              </tr>
+            ))}
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colSpan={2}>disseram máquina</td>
+              {cartoes.map((c) => (
+                <td key={c.id}>
+                  {c.votos_maquina}/{c.votos}
+                </td>
+              ))}
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+      <details style={{ marginTop: 16 }}>
+        <summary>Ver as respostas de cada cartão</summary>
+        <div className="grade" style={{ alignItems: "start", marginTop: 12 }}>
+          {cartoes.map((c) => (
+            <Revelado
+              key={c.id}
+              titulo={c.verdade === "maquina" ? "🤖 Agente" : "🧑 Humano"}
+              cartao={c}
+              cor={c.verdade === "maquina" ? "var(--maquina)" : "var(--humano)"}
+            />
+          ))}
+        </div>
+      </details>
+    </div>
+  );
+}
+
+function Celula({ recebeu, v }: { recebeu: boolean; v?: VereditoAuditado }) {
+  if (!recebeu) return <td />;
+  if (!v) return <td className="suave">·</td>;
+  return (
+    <td className={`celula ${v.acertou ? "certo" : "errado"}`}>
+      {v.veredito === "maquina" ? "🤖" : "🧑"}
+      {v.pista && <span className="pequeno"> P{v.pista}</span>}
+    </td>
+  );
+}
+
+function Numero({
+  valor,
+  rotulo,
+  detalhe,
+  cor,
+  pequeno,
+}: {
+  valor: string;
+  rotulo: string;
+  detalhe?: string;
+  cor?: string;
+  pequeno?: boolean;
+}) {
   return (
     <div className="cartao">
       <div className="numero-grande" style={{ color: cor, fontSize: pequeno ? "2.2rem" : undefined }}>{valor}</div>
       <div className="rotulo-numero">{rotulo}</div>
+      {detalhe && <div className="suave pequeno" style={{ marginTop: 4 }}>{detalhe}</div>}
     </div>
   );
 }
@@ -102,7 +302,7 @@ function Revelado({ titulo, cartao, cor }: { titulo: string; cartao: CartaoRevel
       )}
       {cartao.respostas.map((r, i) => (
         <div key={i} className="resposta" style={{ cursor: "default" }}>
-          <div className="pergunta">{r.pergunta}</div>
+          <div className="pergunta">P{i + 1} · {r.pergunta}</div>
           <div>{r.resposta}</div>
         </div>
       ))}

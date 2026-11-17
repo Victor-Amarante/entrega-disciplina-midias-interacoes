@@ -2,9 +2,7 @@
 
 from ..config import CONFIG
 from ..dominio.modelos import FASES, Participante, Sala
-from . import enquete, jogo, placar
-
-FASES_COM_RESULTADO = ("placar", "enquete", "ataque")
+from . import jogo, placar
 
 
 def do_participante(sala: Sala, eu: Participante) -> dict:
@@ -29,20 +27,12 @@ def do_participante(sala: Sala, eu: Participante) -> dict:
         visao["perguntas"] = [{"id": p.id, "texto": p.texto} for p in sala.perguntas_em_ordem()]
         visao["minhas_respostas"] = meu.respostas if meu else {}
 
-    if fase in ("cacada", *FASES_COM_RESULTADO):
-        visao["cartoes"] = _cartoes(sala, eu, revelar=fase in FASES_COM_RESULTADO)
+    if fase in ("cacada", "placar"):
+        visao["cartoes"] = _cartoes(sala, eu, revelar=fase == "placar")
 
-    if fase in FASES_COM_RESULTADO:
+    if fase == "placar":
         visao["meu_resultado"] = placar.resultado_do_juiz(sala, eu.id)
-
-    if fase in ("enquete", "ataque"):
-        e = sala.enquete
-        visao["enquete"] = {
-            "pergunta": e.pergunta,
-            "opcao_a": e.opcao_a,
-            "opcao_b": e.opcao_b,
-            "meu_voto": e.votos.get(eu.id),
-        }
+        visao["acerto_turma"] = placar.taxa_acerto(sala)
     return visao
 
 
@@ -81,7 +71,6 @@ def do_painel(sala: Sala) -> dict:
         1 for pid, lista in sala.atribuicoes.items()
         if len({j.respondente_id for j in sala.julgamentos if j.juiz_id == pid}) >= len(lista)
     )
-    a, b = enquete.contagem(sala)
 
     visao: dict = {
         "codigo": sala.codigo,
@@ -123,15 +112,7 @@ def do_painel(sala: Sala) -> dict:
             "juizes_concluidos": concluidos,
             "cartoes_no_jogo": sum(1 for r in sala.respondentes.values() if r.rotulo),
         },
-        "enquete": {
-            "pergunta": sala.enquete.pergunta,
-            "opcao_a": sala.enquete.opcao_a,
-            "opcao_b": sala.enquete.opcao_b,
-            "votos": a + b,
-        },
     }
-    if sala.fase in FASES_COM_RESULTADO:
+    if sala.fase == "placar":
         visao["placar"] = placar.calcular(sala)
-    if sala.fase == "ataque":
-        visao["ataque"] = enquete.ataque(sala)
     return visao

@@ -7,7 +7,7 @@ from collections.abc import Callable
 
 from ..armazenamento import novo_id
 from ..dominio.modelos import FASES, Fase, Respondente, Sala
-from . import agentes, enquete, personas
+from . import agentes, personas
 
 LIMITE_ARMADILHAS_POR_PESSOA = 2
 
@@ -33,8 +33,6 @@ def mudar_fase(sala: Sala, fase: Fase, salvar: Callable[[], None]) -> None:
         _lancar_agentes(sala, salvar)
     elif fase == "cacada":
         _numerar_cartoes(sala)
-    elif fase == "ataque" and sala.enquete.status_sinteticos in ("parado", "erro"):
-        _em_segundo_plano(enquete.gerar_sinteticos(sala), salvar)
 
 
 def proxima_fase(sala: Sala) -> Fase | None:

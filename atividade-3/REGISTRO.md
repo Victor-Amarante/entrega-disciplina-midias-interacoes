@@ -29,6 +29,14 @@ questionário: as duas fixas (a genérica e a checagem de atenção) e três arm
 
 - **Tirei a enquete.** *(Por causa da última observação.)* O segundo ato desviava a atenção do que rendeu
   mais na aula, que foi a caçada. O experimento termina no placar.
+- **Um placar que explica e que dá para conferir.** *(Por causa do acerto total.)* Com todo mundo acertando,
+  o que interessava era saber como cada um acertou, e o placar antigo só mostrava taxas. Agora ele abre com
+  frases que dizem o que os números significam (acerto comparado ao chute, humanos acusados, efeito da busca,
+  a pergunta que mais entregou agentes e a que mais confundiu, e um aviso quando há poucos vereditos). Mostra
+  também onde caiu cada veredito: agente pego, agente que passou, humano acusado, humano reconhecido. Por
+  último, uma grade com o veredito de cada jogador em cada cartão e a pergunta marcada como pista, com acesso
+  às respostas completas. No celular, cada pessoa vê o que disse em cada cartão, o que ele era de verdade e
+  a pista que usou.
 - **Agentes com modelos de poucos filtros.** *(Por causa das respostas homogêneas e da discussão sobre os
   guardrails.)* Além do Claude Haiku, a sala pode colocar agentes rodando modelos *abliterated*, versões
   abertas em que o comportamento de recusa foi removido dos pesos. A pergunta é se, sem a camada de ajuste,

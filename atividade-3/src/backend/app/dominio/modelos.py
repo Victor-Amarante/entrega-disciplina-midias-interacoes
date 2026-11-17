@@ -2,14 +2,13 @@
 
 from typing import Literal
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 
-Fase = Literal["lobby", "armadilhas", "respostas", "cacada", "placar", "enquete", "ataque"]
-FASES: list[Fase] = ["lobby", "armadilhas", "respostas", "cacada", "placar", "enquete", "ataque"]
+Fase = Literal["lobby", "armadilhas", "respostas", "cacada", "placar"]
+FASES: list[Fase] = ["lobby", "armadilhas", "respostas", "cacada", "placar"]
 
 TipoPergunta = Literal["generica", "atencao", "local", "impossivel", "vivencia"]
 Veredito = Literal["humano", "maquina"]
-Opcao = Literal["a", "b"]
 
 
 class ConfigSala(BaseModel):
@@ -63,21 +62,6 @@ class Julgamento(BaseModel):
     pista_id: str | None = None  # pergunta cuja resposta entregou a máquina
 
 
-class VotoSintetico(BaseModel):
-    opcao: Opcao
-    justificativa: str
-
-
-class Enquete(BaseModel):
-    pergunta: str = "Empresas deveriam exigir que devs usem assistentes de IA no dia a dia?"
-    opcao_a: str = "Sim, exigir"
-    opcao_b: str = "Não, deixar opcional"
-    votos: dict[str, Opcao] = {}
-    sinteticos: list[VotoSintetico] = []
-    status_sinteticos: Literal["parado", "gerando", "pronto", "erro"] = "parado"
-    custo_sinteticos_usd: float = 0.0
-
-
 class Sala(BaseModel):
     codigo: str
     host_token: str
@@ -90,7 +74,12 @@ class Sala(BaseModel):
     respondentes: dict[str, Respondente] = {}
     atribuicoes: dict[str, list[str]] = {}  # participante -> respondentes que ele julga
     julgamentos: list[Julgamento] = []
-    enquete: Enquete = Field(default_factory=Enquete)
+
+    @field_validator("fase", mode="before")
+    @classmethod
+    def _fase_removida(cls, fase: str) -> str:
+        # Salas salvas quando ainda havia enquete e ataque depois do placar.
+        return "placar" if fase in ("enquete", "ataque") else fase
 
     def pergunta(self, pergunta_id: str) -> Pergunta | None:
         return next((p for p in self.perguntas if p.id == pergunta_id), None)

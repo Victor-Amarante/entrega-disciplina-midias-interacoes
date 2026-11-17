@@ -7,7 +7,7 @@ from ..armazenamento import novo_id
 from ..dominio.modelos import Pergunta
 from ..servicos import jogo, placar, visoes
 from .deps import ArmazemDep, HostDep, exigir_fase, exigir_questionario_aberto
-from .esquemas import EdicaoEnquete, MudancaDeFase, NovaSala, PerguntaDoInstituto
+from .esquemas import MudancaDeFase, NovaSala, PerguntaDoInstituto
 
 rotas = APIRouter(tags=["apresentador"])
 
@@ -84,16 +84,5 @@ async def sortear(s: HostDep, arm: ArmazemDep):
 async def tentar_de_novo(agente_id: str, s: HostDep, arm: ArmazemDep):
     if not jogo.tentar_agente_de_novo(s, agente_id, salvar=lambda: arm.salvar(s)):
         raise HTTPException(409, "Este agente não está com erro.")
-    arm.salvar(s)
-    return visoes.do_painel(s)
-
-
-@rotas.put("/salas/{codigo}/enquete")
-async def editar_enquete(corpo: EdicaoEnquete, s: HostDep, arm: ArmazemDep):
-    if s.enquete.votos:
-        raise HTTPException(409, "A enquete já tem votos; não dá mais para editar.")
-    s.enquete.pergunta = corpo.pergunta.strip()
-    s.enquete.opcao_a = corpo.opcao_a.strip()
-    s.enquete.opcao_b = corpo.opcao_b.strip()
     arm.salvar(s)
     return visoes.do_painel(s)

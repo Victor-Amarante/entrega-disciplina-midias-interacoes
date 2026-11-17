@@ -41,15 +41,3 @@ def responder(persona: Persona | None, perguntas: list[Pergunta]) -> dict[str, s
         else:
             respostas[pergunta.id] = rng.choice(SORTEIO.get(pergunta.tipo, GENERICAS))
     return respostas
-
-
-def justificativas(n: int, opcao: str) -> list[str]:
-    base = [
-        f"{opcao.lower()}, sem dúvida",
-        "acho que é o mais justo pra todo mundo",
-        "já vi isso funcionar em outra empresa",
-        "a maioria dos meus amigos pensa assim",
-        "não tem como controlar mesmo, melhor assim",
-        "pensei bastante e fico com essa",
-    ]
-    return [random.choice(base) for _ in range(n)]
