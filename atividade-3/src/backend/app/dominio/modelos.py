@@ -7,7 +7,9 @@ from pydantic import BaseModel, Field, field_validator
 Fase = Literal["lobby", "armadilhas", "respostas", "cacada", "placar"]
 FASES: list[Fase] = ["lobby", "armadilhas", "respostas", "cacada", "placar"]
 
-TipoPergunta = Literal["generica", "atencao", "local", "impossivel", "vivencia"]
+TipoPergunta = Literal[
+    "generica", "atencao", "local", "impossivel", "vivencia", "invertida", "sem_filtro", "sala"
+]
 Veredito = Literal["humano", "maquina"]
 
 

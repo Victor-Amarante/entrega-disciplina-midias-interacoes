@@ -1,7 +1,15 @@
 // Formas que o backend devolve (app/servicos/visoes.py).
 
 export type Fase = "lobby" | "armadilhas" | "respostas" | "cacada" | "placar";
-export type TipoPergunta = "generica" | "atencao" | "local" | "impossivel" | "vivencia";
+export type TipoPergunta =
+  | "generica"
+  | "atencao"
+  | "local"
+  | "impossivel"
+  | "vivencia"
+  | "invertida"
+  | "sem_filtro"
+  | "sala";
 export type Veredito = "humano" | "maquina";
 
 export interface Cartao {

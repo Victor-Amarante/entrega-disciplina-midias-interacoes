@@ -10,6 +10,9 @@ ROTULO_TIPO = {
     "local": "contexto local",
     "impossivel": "evento impossível",
     "vivencia": "experiência vivida",
+    "invertida": "só máquina sabe",
+    "sem_filtro": "sem filtro",
+    "sala": "aqui na sala",
 }
 
 

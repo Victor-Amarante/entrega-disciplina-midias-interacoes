@@ -43,20 +43,30 @@ questionário: as duas fixas (a genérica e a checagem de atenção) e três arm
   o agente se aproxima do jeito de escrever de uma pessoa ou continua reconhecível. Uma ressalva: a técnica
   tira a recusa, não necessariamente o polimento do texto, então vale comparar também com modelos base, sem
   ajuste de instrução.
-- **Perguntas mais capciosas.** *(Por causa do acerto total, que veio da forma e não do conteúdo.)* As
-  orientações da fase de armadilhas passam a puxar perguntas que não se resolvem pela ortografia: contexto
-  local, experiência vivida, coisas que aconteceram na própria aula. A ideia é que a caçada dependa do que a
-  resposta diz.
+- **Perguntas mais capciosas.** *(Por causa do acerto total, que veio da forma e não do conteúdo.)* A fase de
+  armadilhas ganhou três tipos novos. *Só máquina sabe* inverte o teste: em vez de perguntar o que a máquina
+  erra, pergunta o que gente não responde de cabeça (uma conta grande, o alfabeto de trás pra frente) e a
+  máquina responde na hora, certinho. *Sem filtro* pede opinião forte ou reclamação, que uma pessoa dá sem
+  cerimônia e um modelo educado tende a amaciar. *Aqui na sala* pergunta o que só quem está na aula sabe.
+  A checagem de atenção saiu das opções da turma: a da macaxeira mostrou que seguir uma instrução escondida
+  é mais fácil para a máquina do que para gente.
+- **Um prompt que escreve mais como gente.** *(Por causa das respostas homogêneas.)* O agente agora varia o
+  tamanho da resposta de uma pergunta para outra, usa linguagem simples e abreviações (vc, pq, tb) quando
+  combinam com o jeito da persona, tem opinião e não entrega a conta exata quando uma pessoa não faria de
+  cabeça. Num teste rápido com dois agentes, os dois chutaram a conta (“uns 9700?”). Um recusou o alfabeto
+  invertido e o outro o escreveu perfeito, e as respostas sobre o dia de trabalho continuaram longas e bem
+  pontuadas, mesmo na persona que deveria responder com preguiça.
 
 ## O que decidi não mudar, e por quê
 
-- **Não mandei os agentes errarem de propósito.** Seria o jeito mais rápido de esconder os agentes, mas
-  daria uma caricatura de erro humano escrita por mim, não um teste do modelo. O que interessa é saber se
-  algum modelo produz essa variação sozinho.
+- **Não mandei os agentes errarem de propósito.** O prompt novo libera abreviação e resposta curta, que são
+  jeitos de escrever, mas não pede erro de digitação. Pedir daria uma caricatura de erro humano escrita por
+  mim, não um teste do modelo. O que interessa é saber se algum modelo produz essa variação sozinho.
 - **Mantive o Claude Haiku na sala.** Ele vira a referência: sem ele não dá para dizer se um modelo de poucos
   filtros engana mais ou menos.
 - **Mantive as duas perguntas fixas.** A genérica e a checagem de atenção existem para comparação com as
-  armadilhas da turma. Elas continuam fazendo esse papel.
+  armadilhas da turma. A da macaxeira fica justamente porque a máquina passa nela: é a linha de base que
+  mostra que a checagem de atenção clássica não serve mais.
 - **Não mexi na proporção de agentes com busca.** Os dois com busca foram pegos como os outros. A busca
   ajuda a sustentar o conteúdo da persona, e nesta rodada o que denunciou os agentes foi a forma. Mudar a
   proporção agora não explicaria nada.

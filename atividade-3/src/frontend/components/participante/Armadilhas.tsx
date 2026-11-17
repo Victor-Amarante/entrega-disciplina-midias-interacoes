@@ -9,7 +9,7 @@ import type { PropsFase } from "./props";
 export function Armadilhas({ visao, enviar }: PropsFase) {
   const minhas = visao.minhas_armadilhas ?? [];
   const limite = visao.limite_armadilhas ?? 2;
-  const [tipo, setTipo] = useState<TipoPergunta>("local");
+  const [tipo, setTipo] = useState<TipoPergunta>(TIPOS[0].tipo);
   const [texto, setTexto] = useState("");
   const [erro, setErro] = useState<string | null>(null);
   const [enviando, setEnviando] = useState(false);
@@ -37,7 +37,8 @@ export function Armadilhas({ visao, enviar }: PropsFase) {
         <h2>Escreva uma pergunta que pegue um bot</h2>
         <p className="suave">
           Você é o instituto de pesquisa. Agentes de IA com persona de desenvolvedor de software vão responder ao mesmo
-          questionário que a turma. Que pergunta um humano responde fácil e uma máquina erra?
+          questionário que a turma. Que pergunta um humano responde fácil e uma máquina erra? Ou o contrário: o que uma
+          máquina responde fácil e um humano não?
         </p>
       </div>
 

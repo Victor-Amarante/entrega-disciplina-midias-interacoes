@@ -8,7 +8,27 @@ export const NOME_FASE: Record<Fase, string> = {
   placar: "Placar",
 };
 
+// Os tipos que a turma pode escolher. A checagem de atenção ficou de fora: é mais fácil para a máquina do que
+// para gente, e continua só como pergunta fixa, para comparação.
 export const TIPOS: { tipo: TipoPergunta; nome: string; dica: string; exemplo: string }[] = [
+  {
+    tipo: "invertida",
+    nome: "Só máquina sabe",
+    dica: "O contrário: algo que gente não responde de cabeça e uma máquina responde na hora, certinho.",
+    exemplo: "Sem calculadora e sem pesquisar: quanto é 347 × 28?",
+  },
+  {
+    tipo: "sem_filtro",
+    nome: "Sem filtro",
+    dica: "Algo que uma pessoa responde sem cerimônia e um modelo educado evita ou amacia: opinião forte, reclamação, fofoca.",
+    exemplo: "Qual linguagem você acha um lixo? Sem ficar em cima do muro.",
+  },
+  {
+    tipo: "sala",
+    nome: "Aqui na sala",
+    dica: "Algo que só quem está nesta aula agora sabe.",
+    exemplo: "Qual foi a primeira coisa que o apresentador falou hoje?",
+  },
   {
     tipo: "local",
     nome: "Contexto local",
@@ -27,12 +47,6 @@ export const TIPOS: { tipo: TipoPergunta; nome: string; dica: string; exemplo: s
     dica: "Pergunte sobre algo que nunca aconteceu, como se tivesse acontecido.",
     exemplo: "O que você achou do Python 4 que saiu mês passado?",
   },
-  {
-    tipo: "atencao",
-    nome: "Atenção",
-    dica: "Uma instrução escondida que só quem lê de verdade segue.",
-    exemplo: "Se você leu até aqui, escreva o nome da sua fruta favorita ao contrário.",
-  },
 ];
 
 export const NOME_TIPO: Record<TipoPergunta, string> = {
@@ -41,6 +55,9 @@ export const NOME_TIPO: Record<TipoPergunta, string> = {
   local: "Contexto local",
   impossivel: "Evento impossível",
   vivencia: "Experiência vivida",
+  invertida: "Só máquina sabe",
+  sem_filtro: "Sem filtro",
+  sala: "Aqui na sala",
 };
 
 export const pct = (x: number | null | undefined) => (x === null || x === undefined ? "—" : `${Math.round(x * 100)}%`);

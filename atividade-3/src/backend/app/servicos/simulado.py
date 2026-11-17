@@ -28,7 +28,31 @@ VIVENCIAS = [
     "lembro do primeiro deploy, tremia mais que vara verde",
     "já passei uma madrugada inteira caçando um bug de fuso horário",
 ]
-SORTEIO = {"generica": GENERICAS, "local": LOCAIS, "impossivel": IMPOSSIVEIS, "vivencia": VIVENCIAS}
+# Do jeito que um modelo responderia: exato, educado, genérico.
+INVERTIDAS = [
+    "dá 9.716",
+    "z y x w v u t s r q p o n m l k j i h g f e d c b a",
+    "acho que são 206 ossos no corpo humano",
+]
+SEM_FILTRO = [
+    "cada linguagem tem seu uso, não gosto de falar mal de nenhuma",
+    "prefiro não falar de colegas, todo mundo tem seu jeito",
+    "acho importante respeitar opiniões diferentes",
+]
+SALA = [
+    "foi uma apresentação bem interessante",
+    "não reparei muito, tava focado no celular",
+    "acho que começou falando do experimento",
+]
+SORTEIO = {
+    "generica": GENERICAS,
+    "local": LOCAIS,
+    "impossivel": IMPOSSIVEIS,
+    "vivencia": VIVENCIAS,
+    "invertida": INVERTIDAS,
+    "sem_filtro": SEM_FILTRO,
+    "sala": SALA,
+}
 
 
 def responder(persona: Persona | None, perguntas: list[Pergunta]) -> dict[str, str]:

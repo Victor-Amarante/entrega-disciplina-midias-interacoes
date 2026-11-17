@@ -42,7 +42,8 @@ no estilo de uma persona, consultando a web se precisar. As defesas contra isso 
 
 1. Abra o link ou leia o QR code no telão.
 2. Escolha um apelido.
-3. **Armadilhas:** escreva até duas perguntas que um humano responde fácil e uma máquina erra.
+3. **Armadilhas:** escreva até duas perguntas que um humano responde fácil e uma máquina erra, ou o contrário:
+   que uma máquina responde na hora e um humano não.
 4. **Questionário:** responda às perguntas como você mesmo.
 5. **Caçada:** para cada cartão, toque na resposta que te deu a pista (se houver) e escolha *Humano* ou
    *Máquina*.
