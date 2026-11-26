@@ -39,7 +39,7 @@ export function Entrada({ painel }: PropsPainel) {
           <h3>Como funciona</h3>
           <ol className="suave" style={{ margin: 0, paddingLeft: 20 }}>
             <li>Vocês escrevem perguntas-armadilha para pegar bots.</li>
-            <li>Todo mundo responde ao questionário, junto com {painel.config.n_agentes} agentes de IA.</li>
+            <li>Todo mundo responde ao questionário, junto com agentes de IA.</li>
             <li>Cada um recebe cartões anônimos e diz: gente ou máquina?</li>
             <li>Placar: qual armadilha funcionou, e quem foi acusado injustamente.</li>
           </ol>
