@@ -31,7 +31,10 @@ de parecer humano. A persona é de dev, e não de aluno, porque fica mais perto 
 Todos os agentes rodam num modelo *abliterated*, o `abliterated-model-large-v2` do
 [abliteration.ai](https://abliteration.ai/), um GLM-5.3 aberto em que o comportamento de recusa foi removido dos
 pesos. A ideia é ver se, sem a camada de ajuste de segurança, o agente escreve com a variação e a falta de filtro
-de uma pessoa. Os agentes não pesquisam na web. Para trocar de modelo, use `ABLIT_MODELO`. Na primeira rodada, em
+de uma pessoa. Cada agente tem um jeito de escrever próprio (seco, sem acento, abreviando, com erro de
+digitação), e os agentes respondem em fila, dois de cada vez: cada um vê o que os anteriores já disseram e
+evita repetir a mesma ideia, como faria uma fazenda de bots. Os agentes não pesquisam na web. Para trocar de
+modelo, use `ABLIT_MODELO`. Na primeira rodada, em
 4 de novembro, os agentes rodavam no Claude Haiku, metade com busca na web.
 
 **Por que não dá com tecnologia madura.** Os bots de formulário que existiam até pouco tempo atrás
@@ -61,8 +64,10 @@ no estilo de uma persona. As defesas contra isso ainda estão sendo inventadas.
    vão para o questionário.
 2. O painel abre com o QR code. Projete-o.
 3. Avance as fases pelo botão no canto superior direito. Na fase de armadilhas, marque quais entram no
-   questionário, ou deixe o sorteio escolher. Duas perguntas são fixas: uma genérica e uma checagem de
-   atenção, para servir de comparação.
+   questionário, ou deixe o sorteio escolher. O instituto tem um banco de 9 perguntas, 3 de cada tipo
+   (pegadinha, sem filtro e experiência vivida); a sala já começa com uma de cada tipo sorteada. Dá para trocar
+   qualquer pergunta do banco ou da turma, por exemplo para tirar uma armadilha sobre a sala, que a máquina não
+   tem como responder. Se a turma mandar poucas armadilhas, o sorteio completa as vagas com o banco.
 4. Ao abrir o questionário, os agentes começam a responder em segundo plano. Espere todos ficarem prontos
    (✓) antes de abrir a caçada. Se algum der erro, clique em *Tentar de novo*.
 5. No placar, o telão resume o resultado em frases, mostra onde caiu cada veredito (agente pego, agente que
@@ -116,7 +121,7 @@ Para um teste rápido sem deploy: rode o container e exponha a porta com `ngrok 
 | `ABLIT_TEMPERATURA` | `1` | Temperatura do modelo. |
 | `ESFORCO` | `low` | Esforço de raciocínio (`low` a `max`). Baixo deixa os agentes rápidos. |
 | `ABLIT_URL` | `https://api.abliteration.ai/v1` | Qualquer API compatível com a da OpenAI serve (um Ollama local, por exemplo). |
-| `AGENTES_SIMULTANEOS` | `6` | Quantos agentes chamam a API ao mesmo tempo. |
+| `AGENTES_SIMULTANEOS` | `2` | Quantos agentes respondem ao mesmo tempo. Menos agentes por vez fazem cada um ver mais respostas anteriores e repetir menos. |
 | `PASTA_DADOS` | `backend/dados` | Onde cada sala é salva em JSON. |
 
 ## Como o código está organizado

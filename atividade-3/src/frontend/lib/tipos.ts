@@ -42,7 +42,6 @@ export interface PerguntaPainel {
   tipo: TipoPergunta;
   autor: string | null;
   selecionada: boolean;
-  fixa: boolean;
   no_questionario: boolean;
 }
 
@@ -83,6 +82,7 @@ export interface Placar {
   julgamentos: number;
   acertos: number;
   taxa_acerto: number | null;
+  acerto_sem_olhar: number | null;
   taxa_deteccao: number | null;
   taxa_falsa_acusacao: number | null;
   n_julgamentos_agentes: number;

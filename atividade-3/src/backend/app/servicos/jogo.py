@@ -4,7 +4,7 @@ from collections import Counter
 from collections.abc import Callable
 
 from ..armazenamento import novo_id
-from ..dominio.modelos import FASES, Fase, Respondente, Sala
+from ..dominio.modelos import FASES, Fase, Pergunta, Respondente, Sala
 from . import agentes, personas
 
 LIMITE_ARMADILHAS_POR_PESSOA = 2
@@ -43,12 +43,14 @@ def fase_anterior(sala: Sala) -> Fase | None:
 
 
 def sortear_armadilhas(sala: Sala) -> None:
-    da_turma = [p for p in sala.perguntas if p.autor_id]
+    _completar(sala, [p for p in sala.perguntas if p.autor_id])
+    _completar(sala, [p for p in sala.perguntas if not p.autor_id])
+
+
+def _completar(sala: Sala, candidatas: list[Pergunta]) -> None:
     vagas = sala.config.max_perguntas - sum(1 for p in sala.perguntas if p.selecionada)
-    if vagas <= 0:
-        return
     por_tipo: dict[str, list] = {}
-    for p in random.sample(da_turma, k=len(da_turma)):
+    for p in random.sample(candidatas, k=len(candidatas)):
         if not p.selecionada:
             por_tipo.setdefault(p.tipo, []).append(p)
     filas = list(por_tipo.values())
@@ -61,26 +63,22 @@ def sortear_armadilhas(sala: Sala) -> None:
 
 
 def _fechar_questionario(sala: Sala) -> None:
-    for p in sala.perguntas:
-        if p.fixa:
-            p.selecionada = True
     if not any(p.selecionada and p.autor_id for p in sala.perguntas):
         sortear_armadilhas(sala)
     selecionadas = [p for p in sala.perguntas if p.selecionada]
-    abertura = [p for p in selecionadas if not p.autor_id and p.tipo != "atencao"]
-    atencao = [p for p in selecionadas if not p.autor_id and p.tipo == "atencao"]
-    resto = [p for p in selecionadas if p.autor_id]
-    random.shuffle(resto)
-    meio = len(resto) // 2
-    ordem = abertura + resto[:meio] + atencao + resto[meio:]
-    sala.ordem_perguntas = [p.id for p in ordem]
+    random.shuffle(selecionadas)
+    sala.ordem_perguntas = [p.id for p in selecionadas]
 
 
 def _lancar_agentes(sala: Sala, salvar: Callable[[], None]) -> None:
-    for persona in personas.gerar_personas(sala.config.n_agentes):
-        agente = Respondente(id=novo_id("a"), tipo="agente", persona=persona, status="pendente")
+    grupo = [
+        Respondente(id=novo_id("a"), tipo="agente", persona=persona, status="pendente")
+        for persona in personas.gerar_personas(sala.config.n_agentes)
+    ]
+    for agente in grupo:
         sala.respondentes[agente.id] = agente
-        _em_segundo_plano(agentes.responder(agente, sala.perguntas_em_ordem()), salvar)
+    for agente in grupo:
+        _em_segundo_plano(agentes.responder(agente, sala.perguntas_em_ordem(), grupo), salvar)
 
 
 def tentar_agente_de_novo(sala: Sala, agente_id: str, salvar: Callable[[], None]) -> bool:
@@ -88,7 +86,7 @@ def tentar_agente_de_novo(sala: Sala, agente_id: str, salvar: Callable[[], None]
     if not agente or agente.tipo != "agente" or agente.status != "erro":
         return False
     agente.status = "pendente"
-    _em_segundo_plano(agentes.responder(agente, sala.perguntas_em_ordem()), salvar)
+    _em_segundo_plano(agentes.responder(agente, sala.perguntas_em_ordem(), sala.agentes()), salvar)
     return True
 
 

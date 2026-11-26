@@ -50,7 +50,7 @@ export default function CriarSala() {
           <label htmlFor="q">Perguntas no questionário: {maxPerguntas}</label>
           <input id="q" type="range" min={3} max={10} value={maxPerguntas} onChange={(e) => setMaxPerguntas(+e.target.value)} />
           <p className="suave pequeno" style={{ margin: "4px 0 0" }}>
-            Duas são fixas (uma genérica e uma checagem de atenção); o resto sai das armadilhas da turma.
+            Três saem do banco do instituto, uma de cada tipo; o resto sai das armadilhas da turma.
           </p>
         </div>
         <button className="botao cheio" disabled={criando}>

@@ -1,4 +1,5 @@
 import logging
+import random
 import secrets
 import time
 from pathlib import Path
@@ -10,8 +11,15 @@ log = logging.getLogger(__name__)
 LETRAS_CODIGO = "ABCDEFGHJKMNPQRSTUVWXYZ"
 
 PERGUNTAS_DO_INSTITUTO = [
-    ("generica", "Em poucas palavras, como foi o seu último dia de trabalho?"),
-    ("atencao", "Para mostrar que você está lendo, responda esta pergunta só com a palavra \"macaxeira\"."),
+    ("pegadinha", "Qual é o contrário de uma coxinha?"),
+    ("pegadinha", "Qual é o animal mais CLT que existe?"),
+    ("pegadinha", "Se um bug desaparece sozinho, ele foi corrigido?"),
+    ("sem_filtro", "Qual frase de LinkedIn te dá vergonha alheia?"),
+    ("sem_filtro", "Qual opinião sobre IA você tem, mas evitaria postar no LinkedIn?"),
+    ("sem_filtro", "Qual prática de desenvolvimento todo mundo finge que segue?"),
+    ("vivencia", "Conte a última vez que você fingiu estar ocupado. O que estava fazendo de verdade?"),
+    ("vivencia", "Qual foi a última coisa que você pesquisou por vergonha de perguntar a alguém?"),
+    ("vivencia", "Conte uma pequena vergonha que você passou no trabalho ou na faculdade."),
 ]
 
 
@@ -49,11 +57,10 @@ class Armazem:
             host_token=secrets.token_urlsafe(16),
             criada_em=time.time(),
             config=config,
-            perguntas=[
-                Pergunta(id=novo_id("q"), texto=texto, tipo=tipo, selecionada=True, fixa=True)
-                for tipo, texto in PERGUNTAS_DO_INSTITUTO
-            ],
+            perguntas=[Pergunta(id=novo_id("q"), texto=texto, tipo=tipo) for tipo, texto in PERGUNTAS_DO_INSTITUTO],
         )
+        for tipo in {p.tipo for p in sala.perguntas}:
+            random.choice([p for p in sala.perguntas if p.tipo == tipo]).selecionada = True
         self.salas[codigo] = sala
         self.salvar(sala)
         return sala

@@ -84,7 +84,6 @@ def do_painel(sala: Sala) -> dict:
                 "tipo": p.tipo,
                 "autor": apelidos.get(p.autor_id, "?") if p.autor_id else None,
                 "selecionada": p.selecionada,
-                "fixa": p.fixa,
                 "no_questionario": p.id in sala.ordem_perguntas,
             }
             for p in sala.perguntas

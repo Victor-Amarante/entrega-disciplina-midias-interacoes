@@ -22,7 +22,7 @@ class Config:
     api_chave: str = os.getenv("ABLITERATION_API_KEY", "")
     temperatura: float = float(os.getenv("ABLIT_TEMPERATURA", "1"))
     esforco: str = os.getenv("ESFORCO", "low")
-    agentes_simultaneos: int = int(os.getenv("AGENTES_SIMULTANEOS", "6"))
+    agentes_simultaneos: int = int(os.getenv("AGENTES_SIMULTANEOS", "2"))
     simulado: bool = os.getenv("MODO_SIMULADO") == "1" or not os.getenv("ABLITERATION_API_KEY")
     pasta_dados: Path = Path(os.getenv("PASTA_DADOS", RAIZ_BACKEND / "dados"))
     pasta_estatica: Path = Path(

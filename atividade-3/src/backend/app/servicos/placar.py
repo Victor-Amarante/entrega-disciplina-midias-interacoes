@@ -48,6 +48,7 @@ def calcular(sala: Sala) -> dict:
         "julgamentos": len(julgamentos),
         "acertos": acertos,
         "taxa_acerto": _taxa(acertos, len(julgamentos)),
+        "acerto_sem_olhar": _taxa(max(len(em_agentes), len(em_humanos)), len(julgamentos)),
         "taxa_deteccao": taxa_deteccao(em_agentes),
         "taxa_falsa_acusacao": taxa_deteccao(em_humanos),
         "n_julgamentos_agentes": len(em_agentes),
@@ -197,14 +198,17 @@ def _leituras(r: dict) -> list[str]:
     leituras = []
 
     acerto = f"{r['acertos']} de {n} vereditos certos ({_pct(r['taxa_acerto'])})"
-    if r["taxa_acerto"] >= 0.75:
-        leituras.append(f"A turma separou gente de máquina bem acima do acaso: {acerto}. Chutando, daria uns 50%.")
-    elif r["taxa_acerto"] >= 0.6:
-        leituras.append(f"A turma foi melhor que o acaso, mas sem folga: {acerto}. Chutando, daria uns 50%.")
-    elif r["taxa_acerto"] > 0.4:
-        leituras.append(f"Perto do acaso: {acerto}. Na prática, a turma não conseguiu separar gente de máquina.")
+    base = r["acerto_sem_olhar"]
+    sem_olhar = f"Sem olhar as respostas, dizendo sempre a mesma coisa, daria {_pct(base)}."
+    folga = r["taxa_acerto"] - base
+    if folga >= 0.25:
+        leituras.append(f"A turma separou gente de máquina bem acima do acaso: {acerto}. {sem_olhar}")
+    elif folga >= 0.1:
+        leituras.append(f"A turma foi melhor que o acaso, mas sem folga: {acerto}. {sem_olhar}")
+    elif folga > -0.1:
+        leituras.append(f"Perto do acaso: {acerto}. {sem_olhar} Na prática, a turma não conseguiu separar gente de máquina.")
     else:
-        leituras.append(f"Abaixo do acaso: {acerto}. A turma trocou gente por máquina mais vezes do que acertou.")
+        leituras.append(f"Abaixo do acaso: {acerto}. {sem_olhar} Olhar as respostas atrapalhou mais do que ajudou.")
 
     m = r["matriz"]
     if r["n_julgamentos_humanos"]:

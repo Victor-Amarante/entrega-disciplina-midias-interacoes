@@ -31,7 +31,6 @@ class Pergunta(BaseModel):
     tipo: TipoPergunta
     autor_id: str | None = None
     selecionada: bool = False
-    fixa: bool = False
 
 
 class Persona(BaseModel):

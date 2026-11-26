@@ -135,18 +135,18 @@ OPINIOES = [
 ]
 
 ESTILOS = [
-    "escreve tudo em minúsculas, quase sem pontuação, frases bem curtas",
-    "escreve rápido e às vezes erra uma letra ou outra, usa 'kkkk' quando acha graça",
-    "escreve certinho mas curto, sem enrolar",
-    "mistura muito inglês no meio: 'deploy', 'subir pra prod', 'fazer o merge', 'tá buggado'",
-    "responde com preguiça, às vezes só duas ou três palavras",
-    "abrevia muito: 'vc', 'tb', 'pq', 'q', 'mto'",
-    "escreve frases compridas, emendando uma ideia na outra com vírgula",
-    "põe um emoji no fim de quase toda frase",
-    "escreve meio formal, como se fosse e-mail de trabalho",
-    "usa muito 'tipo' e 'aí' no meio das frases",
-    "escreve seco, com maiúscula e ponto final, sem simpatia",
-    "responde com ironia e uma piadinha sempre que pode",
+    "responde curtíssimo, de uma a cinco palavras, com a primeira letra maiúscula e sem ponto final",
+    "escreve tudo em minúsculas, sem acento e quase sem pontuação",
+    "escreve frases curtas e normais, mas não liga para acento: escreve 'reuniao', 'voce', 'nao', 'ja'",
+    "abrevia bastante (vc, tb, pq, q, mt, n) e não usa acento",
+    "escreve certinho, com acento e ponto final, mas curto e sem enfeite",
+    "responde com preguiça, às vezes só 'sim', 'nao', 'sei la' ou 'nenhuma'",
+    "digita rápido e deixa passar um erro de digitação de vez em quando, sem corrigir",
+    "escreve um pouco mais quando o assunto é trabalho, sem acento e sem piada",
+    "escreve normal e solta um 'kkk' de vez em quando, só quando algo tem graça de verdade",
+    "solta um termo em inglês do trabalho aqui e ali (task, daily, deploy) e escreve sem acento",
+    "escreve seco, sem simpatia, às vezes só com a resposta e mais nada",
+    "começa frase com 'ah' ou 'acho q' e não usa acento",
 ]
 
 PARTICULARIDADES = [

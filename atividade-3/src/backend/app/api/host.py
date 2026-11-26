@@ -55,8 +55,6 @@ async def alternar_pergunta(pergunta_id: str, s: HostDep, arm: ArmazemDep):
     pergunta = s.pergunta(pergunta_id)
     if not pergunta:
         raise HTTPException(404, "Pergunta não encontrada.")
-    if pergunta.fixa:
-        raise HTTPException(409, "As perguntas do instituto são fixas: servem de comparação.")
     selecionadas = sum(p.selecionada for p in s.perguntas)
     if not pergunta.selecionada and selecionadas >= s.config.max_perguntas:
         raise HTTPException(409, f"O questionário já está cheio ({selecionadas}/{s.config.max_perguntas}). Desmarque outra antes.")

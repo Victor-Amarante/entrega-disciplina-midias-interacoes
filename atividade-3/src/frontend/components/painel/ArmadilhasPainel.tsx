@@ -53,8 +53,9 @@ export function ArmadilhasPainel({ painel, acao }: PropsPainel) {
           </p>
         ) : (
           <p className="suave pequeno" style={{ margin: 0 }}>
-            As perguntas do instituto são fixas. Clique nas da turma para incluir ou tirar, até completar as vagas. Se
-            nenhuma estiver marcada ao avançar, o sorteio escolhe variando os tipos.
+            Do banco do instituto, entrou uma pergunta de cada tipo, sorteada. Clique em qualquer pergunta, do instituto
+            ou da turma, para incluir ou tirar, até completar as vagas. Se nenhuma da turma estiver marcada ao avançar, o
+            sorteio escolhe variando os tipos e completa com o banco.
           </p>
         )}
 
@@ -76,7 +77,7 @@ export function ArmadilhasPainel({ painel, acao }: PropsPainel) {
               acao("/perguntas", { texto: nova, tipo: "generica" }).then(() => setNova(""));
             }}
           >
-            <input value={nova} onChange={(e) => setNova(e.target.value)} placeholder="Acrescentar uma pergunta genérica do instituto" />
+            <input value={nova} onChange={(e) => setNova(e.target.value)} placeholder="Acrescentar uma pergunta do instituto" />
             <button className="botao secundario" disabled={nova.trim().length < 5}>
               Acrescentar
             </button>
@@ -88,7 +89,6 @@ export function ArmadilhasPainel({ painel, acao }: PropsPainel) {
 }
 
 function Linha({ pergunta: p, fechado, alternar }: { pergunta: PerguntaPainel; fechado: boolean; alternar: () => void }) {
-  const travada = fechado || p.fixa;
   return (
     <label
       className="linha"
@@ -96,12 +96,12 @@ function Linha({ pergunta: p, fechado, alternar }: { pergunta: PerguntaPainel; f
         padding: "10px 0",
         borderBottom: "1px solid var(--borda)",
         fontWeight: 400,
-        cursor: travada ? "default" : "pointer",
+        cursor: fechado ? "default" : "pointer",
         flexWrap: "nowrap",
       }}
     >
-      {travada ? (
-        <span style={{ width: 20, textAlign: "center", flex: "none" }} title={p.fixa ? "Pergunta fixa" : "Questionário fechado"}>
+      {fechado ? (
+        <span style={{ width: 20, textAlign: "center", flex: "none" }} title="Questionário fechado">
           🔒
         </span>
       ) : (
@@ -111,7 +111,7 @@ function Linha({ pergunta: p, fechado, alternar }: { pergunta: PerguntaPainel; f
         <div>{p.texto}</div>
         <div className="linha" style={{ marginTop: 4 }}>
           <span className="chip">{NOME_TIPO[p.tipo]}</span>
-          <span className="suave pequeno">{p.autor ?? (p.fixa ? "instituto · fixa" : "instituto")}</span>
+          <span className="suave pequeno">{p.autor ?? "instituto"}</span>
         </div>
       </div>
     </label>

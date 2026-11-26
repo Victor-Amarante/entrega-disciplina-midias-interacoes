@@ -28,7 +28,7 @@ export function PlacarPainel({ painel }: PropsPainel) {
           <Numero
             valor={pct(p.taxa_acerto)}
             rotulo="de acerto da turma"
-            detalhe={`${p.acertos} de ${p.julgamentos} vereditos certos. Chutando, daria uns 50%.`}
+            detalhe={`${p.acertos} de ${p.julgamentos} vereditos certos. Sem olhar as respostas, daria ${pct(p.acerto_sem_olhar)}.`}
           />
           <div className="grade">
             <Numero
@@ -70,6 +70,37 @@ export function PlacarPainel({ painel }: PropsPainel) {
       </div>
 
       <Auditoria p={p} />
+
+      <Acaso p={p} />
+    </div>
+  );
+}
+
+function Acaso({ p }: { p: Placar }) {
+  if (p.taxa_acerto === null || p.acerto_sem_olhar === null) return null;
+  const maioria = p.n_julgamentos_agentes >= p.n_julgamentos_humanos ? "máquina" : "humano";
+  const pontos = Math.round((p.taxa_acerto - p.acerto_sem_olhar) * 100);
+  const comparacao =
+    Math.abs(pontos) < 10
+      ? "praticamente o mesmo que não olhar: os agentes se disfarçaram bem."
+      : pontos > 0
+        ? `${pontos} pontos acima: a turma conseguiu reconhecer as máquinas.`
+        : `${-pontos} pontos abaixo: ler as respostas atrapalhou mais do que ajudou.`;
+  return (
+    <div className="cartao">
+      <h3>Como ler o acerto</h3>
+      <p>
+        Sem ler nenhuma resposta, só dizendo “{maioria}” para todos os cartões, daria{" "}
+        <strong>{pct(p.acerto_sem_olhar)}</strong> de acerto. Essa é a régua do acaso: a turma só mostra que sabe
+        separar gente de máquina se passar dela.
+      </p>
+      <ul className="leituras">
+        <li>Perto da régua: a turma não conseguiu separar. Os agentes venceram.</li>
+        <li>Bem acima da régua: a turma reconhece as máquinas.</li>
+      </ul>
+      <p style={{ marginBottom: 0 }}>
+        Nesta sala: <strong>{pct(p.taxa_acerto)}</strong> de acerto, {comparacao}
+      </p>
     </div>
   );
 }

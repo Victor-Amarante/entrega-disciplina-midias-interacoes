@@ -8,6 +8,9 @@ export function Resultado({ visao }: PropsFase) {
   const cartoes = visao.cartoes ?? [];
   const r = visao.meu_resultado;
   const total = r?.total ?? 0;
+  const julgados = cartoes.filter((c) => c.meu_veredito);
+  const maquinas = julgados.filter((c) => c.verdade === "maquina").length;
+  const semOlhar = Math.max(maquinas, julgados.length - maquinas);
   return (
     <div className="coluna">
       <div className="cartao centro" style={{ padding: "28px 20px" }}>
@@ -15,7 +18,7 @@ export function Resultado({ visao }: PropsFase) {
           {r?.acertos ?? 0}/{total}
         </div>
         <div className="rotulo-numero">
-          cartões certos. Chutando, você acertaria uns {Math.round(total / 2)}.
+          cartões certos. Sem olhar as respostas, você acertaria {semOlhar}.
         </div>
         {visao.acerto_turma != null && (
           <p className="pequeno" style={{ marginTop: 12, marginBottom: 0 }}>
