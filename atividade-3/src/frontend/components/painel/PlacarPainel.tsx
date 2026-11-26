@@ -78,6 +78,19 @@ export function PlacarPainel({ painel }: PropsPainel) {
 
 function Acaso({ p }: { p: Placar }) {
   if (p.taxa_acerto === null || p.acerto_sem_olhar === null) return null;
+  if (!p.n_julgamentos_agentes || !p.n_julgamentos_humanos) {
+    const so = p.n_julgamentos_agentes ? "agentes" : "humanos";
+    return (
+      <div className="cartao">
+        <h3>Como ler o acerto</h3>
+        <p style={{ marginBottom: 0 }}>
+          Nesta sala, todos os cartões julgados eram {so}, porque faltou gente para misturar. Assim, dizer sempre a
+          mesma coisa já acerta tudo, e o acerto não mostra se a turma separa gente de máquina. Para medir, cada pessoa
+          precisa receber cartões dos dois tipos: com 5 pessoas ou mais, metade de cada.
+        </p>
+      </div>
+    );
+  }
   const maioria = p.n_julgamentos_agentes >= p.n_julgamentos_humanos ? "máquina" : "humano";
   const pontos = Math.round((p.taxa_acerto - p.acerto_sem_olhar) * 100);
   const comparacao =

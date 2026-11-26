@@ -201,7 +201,13 @@ def _leituras(r: dict) -> list[str]:
     base = r["acerto_sem_olhar"]
     sem_olhar = f"Sem olhar as respostas, dizendo sempre a mesma coisa, daria {_pct(base)}."
     folga = r["taxa_acerto"] - base
-    if folga >= 0.25:
+    if not r["n_julgamentos_agentes"] or not r["n_julgamentos_humanos"]:
+        so = "agentes" if r["n_julgamentos_agentes"] else "humanos"
+        leituras.append(
+            f"Todos os vereditos foram sobre {so}: {acerto}. Sem gente e máquina misturadas nos cartões, "
+            "não dá para medir se a turma separa uma da outra."
+        )
+    elif folga >= 0.25:
         leituras.append(f"A turma separou gente de máquina bem acima do acaso: {acerto}. {sem_olhar}")
     elif folga >= 0.1:
         leituras.append(f"A turma foi melhor que o acaso, mas sem folga: {acerto}. {sem_olhar}")
