@@ -111,7 +111,7 @@ export function Painel({ codigo }: { codigo: string }) {
 
       {painel.simulado && (
         <p className="aviso">
-          Modo simulado: o servidor está sem ANTHROPIC_API_KEY, e os agentes usam frases prontas. Serve para testar,
+          Modo simulado: o servidor está sem ABLITERATION_API_KEY, e os agentes usam frases prontas. Serve para testar,
           não para o experimento.
         </p>
       )}

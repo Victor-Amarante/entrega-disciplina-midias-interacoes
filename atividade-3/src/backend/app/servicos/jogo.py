@@ -1,5 +1,3 @@
-"""Regras do jogo: o que acontece ao mudar de fase e como os cartões são distribuídos."""
-
 import asyncio
 import random
 from collections import Counter
@@ -11,7 +9,6 @@ from . import agentes, personas
 
 LIMITE_ARMADILHAS_POR_PESSOA = 2
 
-# Guarda referência das tarefas em segundo plano para o GC não as recolher no meio.
 _tarefas: set[asyncio.Task] = set()
 
 
@@ -45,11 +42,7 @@ def fase_anterior(sala: Sala) -> Fase | None:
     return FASES[i - 1] if i > 0 else None
 
 
-# --- armadilhas -----------------------------------------------------------------
-
-
 def sortear_armadilhas(sala: Sala) -> None:
-    """Marca armadilhas da turma até completar o questionário, variando os tipos."""
     da_turma = [p for p in sala.perguntas if p.autor_id]
     vagas = sala.config.max_perguntas - sum(1 for p in sala.perguntas if p.selecionada)
     if vagas <= 0:
@@ -74,7 +67,6 @@ def _fechar_questionario(sala: Sala) -> None:
     if not any(p.selecionada and p.autor_id for p in sala.perguntas):
         sortear_armadilhas(sala)
     selecionadas = [p for p in sala.perguntas if p.selecionada]
-    # Genéricas do instituto abrem o questionário; a checagem de atenção vai no meio.
     abertura = [p for p in selecionadas if not p.autor_id and p.tipo != "atencao"]
     atencao = [p for p in selecionadas if not p.autor_id and p.tipo == "atencao"]
     resto = [p for p in selecionadas if p.autor_id]
@@ -84,21 +76,9 @@ def _fechar_questionario(sala: Sala) -> None:
     sala.ordem_perguntas = [p.id for p in ordem]
 
 
-# --- agentes --------------------------------------------------------------------
-
-
 def _lancar_agentes(sala: Sala, salvar: Callable[[], None]) -> None:
-    n = sala.config.n_agentes
-    n_busca = round(n * sala.config.frac_busca)
-    lista = personas.gerar_personas(n)
-    for i, persona in enumerate(lista):
-        agente = Respondente(
-            id=novo_id("a"),
-            tipo="agente",
-            persona=persona,
-            com_busca=i < n_busca,
-            status="pendente",
-        )
+    for persona in personas.gerar_personas(sala.config.n_agentes):
+        agente = Respondente(id=novo_id("a"), tipo="agente", persona=persona, status="pendente")
         sala.respondentes[agente.id] = agente
         _em_segundo_plano(agentes.responder(agente, sala.perguntas_em_ordem()), salvar)
 
@@ -112,12 +92,7 @@ def tentar_agente_de_novo(sala: Sala, agente_id: str, salvar: Callable[[], None]
     return True
 
 
-# --- caçada ---------------------------------------------------------------------
-
-
 def _numerar_cartoes(sala: Sala) -> None:
-    """Dá um número de 10 a 99 a cada respondente pronto. Sorteado, para a ordem de
-    chegada não denunciar quem é agente."""
     usados = {r.rotulo for r in sala.respondentes.values() if r.rotulo}
     livres = [str(n) for n in range(10, 100) if str(n) not in usados]
     random.shuffle(livres)
@@ -127,11 +102,9 @@ def _numerar_cartoes(sala: Sala) -> None:
 
 
 def cartoes_do_juiz(sala: Sala, participante_id: str) -> list[str]:
-    """Sorteia (uma vez) os respondentes que o participante vai julgar: metade
-    agentes e metade humanos quando dá, preferindo os menos julgados."""
     if participante_id in sala.atribuicoes:
         return sala.atribuicoes[participante_id]
-    _numerar_cartoes(sala)  # agentes que terminaram depois de a caçada abrir
+    _numerar_cartoes(sala)
     proprio = f"h-{participante_id}"
     prontos = [
         r for r in sala.respondentes.values()

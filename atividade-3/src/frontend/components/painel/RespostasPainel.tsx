@@ -29,14 +29,14 @@ export function RespostasPainel({ painel, acao }: PropsPainel) {
       <div className="cartao">
         <h3>Agentes</h3>
         <p className="suave pequeno">
-          Cada um tem uma persona de desenvolvedor de software e recebe as mesmas perguntas. Os marcados com 🔎 podem pesquisar na web.
+          Cada um tem uma persona de desenvolvedor de software e recebe as mesmas perguntas. Todos rodam no modelo sem
+          filtros ({painel.modelo}), sem busca na web.
         </p>
         <div className="grade" style={{ gridTemplateColumns: "repeat(auto-fill, minmax(180px, 1fr))", gap: 10 }}>
           {painel.agentes.map((a, i) => (
             <div key={a.id} className="cartao" style={{ padding: 12, margin: 0 }}>
               <div className="linha">
                 <strong>Agente {i + 1}</strong>
-                {a.com_busca && <span title="com busca na web">🔎</span>}
                 <span className="espaco" />
                 {a.status === "pendente" && <span className="pulsando">⏳</span>}
                 {a.status === "pronto" && <span>✓ {a.segundos}s</span>}

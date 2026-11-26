@@ -37,8 +37,9 @@ export function Armadilhas({ visao, enviar }: PropsFase) {
         <h2>Escreva uma pergunta que pegue um bot</h2>
         <p className="suave">
           Você é o instituto de pesquisa. Agentes de IA com persona de desenvolvedor de software vão responder ao mesmo
-          questionário que a turma. Que pergunta um humano responde fácil e uma máquina erra? Ou o contrário: o que uma
-          máquina responde fácil e um humano não?
+          questionário que a turma. A regra: a pergunta tem que ser possível de responder para os dois lados. Nada sobre
+          o que aconteceu aqui na sala nem nada que precise pesquisar na internet, como lugares do Recife: a máquina
+          não tem como saber. A pista tem que vir do jeito de responder.
         </p>
       </div>
 

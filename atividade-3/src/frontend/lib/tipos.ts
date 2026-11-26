@@ -1,5 +1,3 @@
-// Formas que o backend devolve (app/servicos/visoes.py).
-
 export type Fase = "lobby" | "armadilhas" | "respostas" | "cacada" | "placar";
 export type TipoPergunta =
   | "generica"
@@ -9,6 +7,7 @@ export type TipoPergunta =
   | "vivencia"
   | "invertida"
   | "sem_filtro"
+  | "pegadinha"
   | "sala";
 export type Veredito = "humano" | "maquina";
 
@@ -20,7 +19,6 @@ export interface Cartao {
   minha_pista: string | null;
   verdade?: Veredito;
   persona?: string;
-  com_busca?: boolean;
 }
 
 export interface VisaoParticipante {
@@ -51,7 +49,6 @@ export interface PerguntaPainel {
 export interface AgentePainel {
   id: string;
   nome: string;
-  com_busca: boolean;
   status: "pendente" | "pronto" | "erro";
   erro: string | null;
   segundos: number;
@@ -65,14 +62,13 @@ export interface CartaoRevelado {
   votos_maquina: number;
   votos: number;
   persona: { nome: string; resumo: string } | null;
-  com_busca: boolean;
   respostas: { pergunta: string; resposta: string }[];
 }
 
 export interface VereditoAuditado {
   veredito: Veredito;
   acertou: boolean;
-  pista: number | null; // número da pergunta (P1, P2…) marcada como pista
+  pista: number | null;
 }
 
 export interface JogadorAuditado {
@@ -89,12 +85,8 @@ export interface Placar {
   taxa_acerto: number | null;
   taxa_deteccao: number | null;
   taxa_falsa_acusacao: number | null;
-  deteccao_com_busca: number | null;
-  deteccao_sem_busca: number | null;
   n_julgamentos_agentes: number;
   n_julgamentos_humanos: number;
-  n_julgamentos_com_busca: number;
-  n_julgamentos_sem_busca: number;
   matriz: { agentes_pegos: number; agentes_passaram: number; humanos_acusados: number; humanos_reconhecidos: number };
   armadilhas: {
     id: string;
@@ -118,7 +110,7 @@ export interface VisaoPainel {
   codigo: string;
   fase: Fase;
   fases: Fase[];
-  config: { n_agentes: number; frac_busca: number; max_perguntas: number; cards_por_juiz: number };
+  config: { n_agentes: number; max_perguntas: number; cards_por_juiz: number };
   simulado: boolean;
   modelo: string;
   participantes: { id: string; apelido: string }[];

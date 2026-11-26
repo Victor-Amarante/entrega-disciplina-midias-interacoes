@@ -1,16 +1,3 @@
-"""Personas de desenvolvedor de software para os agentes, montadas a partir de listas.
-
-Segue a ideia de Westwood: uma persona longa e concreta, com rotina, trajetória e
-jeito de escrever, para o agente ter de onde tirar detalhes de "vida vivida".
-O ofício de dev é bem documentado na web, então o agente com busca acha com
-facilidade o que precisa para sustentar a persona.
-
-Dentro de uma sala, nenhum traço se repete entre agentes: se dois agentes tivessem
-a mesma stack ou a mesma empresa, contariam histórias parecidas, e o jogador
-pegaria a coincidência do sorteio em vez da máquina. Por isso cada lista tem pelo
-menos MAX_AGENTES itens.
-"""
-
 import random
 
 from ..dominio.modelos import Persona
@@ -25,9 +12,6 @@ NOMES = [
     ("Rodrigo", "homem"), ("Vinícius", "homem"), ("Kauã", "homem"), ("Sam", "pessoa não binária"),
 ]
 
-# (cargo, faixa de idade, faixa de anos de experiência). Escritos sem marca de
-# gênero, para servir a qualquer nome. São só cinco níveis, então o cargo se
-# repete com mais de cinco agentes; o sorteio espalha os níveis por igual.
 CARGOS = [
     ("faz estágio em desenvolvimento", (19, 23), (0, 1)),
     ("é dev júnior", (21, 27), (1, 3)),
@@ -165,8 +149,6 @@ ESTILOS = [
     "responde com ironia e uma piadinha sempre que pode",
 ]
 
-# Um traço fora do trabalho, para cada agente ter uma vida própria e as respostas
-# não convergirem para a mesma história.
 PARTICULARIDADES = [
     "tem um filho pequeno e trabalha com a rotina da creche",
     "toca baixo numa banda de amigos nos fins de semana",
@@ -184,7 +166,6 @@ PARTICULARIDADES = [
 
 
 def _distribuir(rng: random.Random, opcoes: list, n: int) -> list:
-    """Embaralha e entrega um item diferente por agente; só repete se faltar item."""
     embaralhadas = rng.sample(opcoes, k=len(opcoes))
     return [embaralhadas[i % len(embaralhadas)] for i in range(n)]
 
@@ -209,9 +190,8 @@ def gerar_personas(n: int, semente: int | None = None) -> list[Persona]:
     return [_persona(rng, {chave: valores[i] for chave, valores in tracos.items()}) for i in range(n)]
 
 
-# Combinações que não fazem sentido com o cargo: (traço, valor, cargos em que é proibido).
 CONFLITOS = [
-    ("empresa", FREELANCER, ("estágio", "tech lead")),  # freelancer não lidera nem estagia
+    ("empresa", FREELANCER, ("estágio", "tech lead")),
     ("rotina", "mentora os estagiários do time e escreve muita documentação", ("estágio", "júnior")),
     ("formacao", "fez mestrado em Ciência da Computação antes de ir para o mercado", ("estágio",)),
     ("formacao", "ainda está terminando a graduação enquanto trabalha", ("sênior", "tech lead")),
@@ -223,7 +203,6 @@ def _proibido(traco: str, valor, cargo: str) -> bool:
 
 
 def _resolver_conflitos(tracos: dict, n: int) -> None:
-    """Troca o traço incoerente com o de outro agente, sem criar repetição nem novo conflito."""
     cargo = lambda k: tracos["cargo"][k][0]
     for traco, *_ in CONFLITOS:
         valores = tracos[traco]

@@ -1,5 +1,3 @@
-"""Dependências das rotas: o armazém, a sala do código e quem está pedindo."""
-
 from typing import Annotated
 
 from fastapi import Depends, Header, HTTPException, Request
@@ -50,6 +48,5 @@ def exigir_fase(s: Sala, *fases: str) -> None:
 
 
 def exigir_questionario_aberto(s: Sala) -> None:
-    # Depois que os agentes começam a responder, mudar as perguntas invalidaria tudo.
     if s.ordem_perguntas:
         raise HTTPException(409, "O questionário já foi fechado. Para mudar as perguntas, crie uma sala nova.")

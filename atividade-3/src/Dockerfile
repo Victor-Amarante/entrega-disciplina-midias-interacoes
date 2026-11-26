@@ -1,6 +1,3 @@
-# Uma imagem só: o Next é exportado como site estático e servido pelo FastAPI,
-# então o experimento inteiro fica num link.
-
 FROM node:22-alpine AS frontend
 WORKDIR /app
 COPY frontend/package.json frontend/package-lock.json ./

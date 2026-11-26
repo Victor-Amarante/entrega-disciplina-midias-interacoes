@@ -1,5 +1,3 @@
-"""O que cada tela recebe. O celular do participante nunca vê quem é agente antes do placar."""
-
 from ..config import CONFIG
 from ..dominio.modelos import FASES, Participante, Sala
 from . import jogo, placar
@@ -58,7 +56,6 @@ def _cartoes(sala: Sala, eu: Participante, revelar: bool) -> list[dict]:
             cartao["verdade"] = "maquina" if r.tipo == "agente" else "humano"
             if r.persona:
                 cartao["persona"] = r.persona.nome
-                cartao["com_busca"] = r.com_busca
         cartoes.append(cartao)
     return cartoes
 
@@ -98,7 +95,6 @@ def do_painel(sala: Sala) -> dict:
             {
                 "id": r.id,
                 "nome": r.persona.nome if r.persona else "",
-                "com_busca": r.com_busca,
                 "status": r.status,
                 "erro": r.erro,
                 "segundos": r.segundos,

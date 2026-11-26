@@ -1,9 +1,3 @@
-"""Salas em memória, com uma cópia em JSON por sala para sobreviver a um reinício.
-
-Todas as rotas são `async` e rodam no mesmo event loop, então não há escrita
-concorrente no estado: não precisa de lock.
-"""
-
 import logging
 import secrets
 import time
@@ -13,7 +7,6 @@ from .dominio.modelos import ConfigSala, Pergunta, Sala
 
 log = logging.getLogger(__name__)
 
-# Sem letras que se confundem no telão (O/0, I/1, L).
 LETRAS_CODIGO = "ABCDEFGHJKMNPQRSTUVWXYZ"
 
 PERGUNTAS_DO_INSTITUTO = [

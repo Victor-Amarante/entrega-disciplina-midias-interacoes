@@ -44,7 +44,7 @@ function Linha({ c }: { c: Cartao }) {
       <div className="linha">
         <strong>#{c.rotulo}</strong>
         <span className={`chip ${c.verdade}`}>
-          era {c.verdade === "maquina" ? `🤖 ${c.persona ?? "agente"}${c.com_busca ? " · com busca" : ""}` : "🧑 humano"}
+          era {c.verdade === "maquina" ? `🤖 ${c.persona ?? "agente"}` : "🧑 humano"}
         </span>
         <span className="espaco" />
         <span className="pequeno" style={{ color: c.meu_veredito ? (acertou ? "var(--certo)" : "var(--perigo)") : undefined }}>

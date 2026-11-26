@@ -152,8 +152,6 @@ button.chip { cursor: pointer; font-family: inherit; }
 @keyframes pulso { 50% { opacity: .4; } }
 .pulsando { animation: pulso 1.4s ease-in-out infinite; }
 
-/* ---- painel (telão) ---- */
-
 .painel { padding: 20px 28px 40px; max-width: 1400px; margin: 0 auto; }
 .painel-topo {
   display: flex; gap: 16px; align-items: center; flex-wrap: wrap;
@@ -191,7 +189,6 @@ button.chip { cursor: pointer; font-family: inherit; }
 .auditoria tfoot td { color: var(--texto-suave); font-size: .85rem; border-bottom: 0; }
 
 details > summary { cursor: pointer; color: var(--destaque); font-weight: 600; }
-
 
 @media (max-width: 760px) {
   .painel { padding: 16px; }

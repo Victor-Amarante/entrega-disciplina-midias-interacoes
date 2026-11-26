@@ -1,5 +1,3 @@
-"""Rotas do celular de quem joga."""
-
 import secrets
 
 from fastapi import APIRouter, HTTPException
@@ -27,7 +25,7 @@ async def minha_visao(s: SalaDep, eu: ParticipanteDep, arm: ArmazemDep):
     sorteados_antes = eu.id in s.atribuicoes
     visao = visoes.do_participante(s, eu)
     if not sorteados_antes and eu.id in s.atribuicoes:
-        arm.salvar(s)  # os cartões foram sorteados agora
+        arm.salvar(s)
     return visao
 
 

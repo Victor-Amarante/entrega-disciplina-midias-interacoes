@@ -1,8 +1,6 @@
-"""Corpos de requisição."""
+from pydantic import BaseModel, Field, field_validator
 
-from pydantic import BaseModel, Field
-
-from ..dominio.modelos import ConfigSala, Fase, TipoPergunta, Veredito
+from ..dominio.modelos import TIPOS_DA_TURMA, ConfigSala, Fase, TipoPergunta, Veredito
 
 
 class NovaSala(BaseModel):
@@ -16,6 +14,13 @@ class Entrada(BaseModel):
 class NovaArmadilha(BaseModel):
     texto: str = Field(min_length=5, max_length=300)
     tipo: TipoPergunta
+
+    @field_validator("tipo")
+    @classmethod
+    def _tipo_da_turma(cls, tipo: str) -> str:
+        if tipo not in TIPOS_DA_TURMA:
+            raise ValueError("tipo de armadilha indisponível")
+        return tipo
 
 
 class Respostas(BaseModel):

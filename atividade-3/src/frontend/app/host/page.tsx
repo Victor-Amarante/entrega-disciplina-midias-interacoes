@@ -9,7 +9,6 @@ import { guardarTokenHost } from "@/lib/sessao";
 export default function CriarSala() {
   const router = useRouter();
   const [nAgentes, setNAgentes] = useState(8);
-  const [fracBusca, setFracBusca] = useState(50);
   const [maxPerguntas, setMaxPerguntas] = useState(6);
   const [erro, setErro] = useState<string | null>(null);
   const [criando, setCriando] = useState(false);
@@ -19,7 +18,7 @@ export default function CriarSala() {
     setCriando(true);
     try {
       const r = await api<{ codigo: string; host_token: string }>("/salas", {
-        corpo: { config: { n_agentes: nAgentes, frac_busca: fracBusca / 100, max_perguntas: maxPerguntas } },
+        corpo: { config: { n_agentes: nAgentes, max_perguntas: maxPerguntas } },
       });
       guardarTokenHost(r.codigo, r.host_token);
       router.push(`/painel/?c=${r.codigo}`);
@@ -43,12 +42,8 @@ export default function CriarSala() {
         <div>
           <label htmlFor="n">Agentes infiltrados: {nAgentes}</label>
           <input id="n" type="range" min={2} max={12} value={nAgentes} onChange={(e) => setNAgentes(+e.target.value)} />
-        </div>
-        <div>
-          <label htmlFor="b">Com busca na web: {fracBusca}%</label>
-          <input id="b" type="range" min={0} max={100} step={25} value={fracBusca} onChange={(e) => setFracBusca(+e.target.value)} />
           <p className="suave pequeno" style={{ margin: "4px 0 0" }}>
-            Parte dos agentes pode pesquisar antes de responder, para testar as perguntas de contexto local.
+            Todos rodam num modelo aberto <em>abliterated</em>, sem o ajuste de recusa e sem busca na web.
           </p>
         </div>
         <div>

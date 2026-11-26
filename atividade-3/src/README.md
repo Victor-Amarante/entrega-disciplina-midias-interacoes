@@ -26,15 +26,19 @@ de máquina numa pesquisa? E quanto custa virar um resultado?
 ## Tecnologia emergente
 
 Respondentes sintéticos autônomos baseados em LLM, como o agente de Westwood (PNAS, 2025), que passou em 99,8%
-das checagens de atenção. Cada agente aqui recebe uma persona longa e concreta de desenvolvedor de software (cargo, stack, empresa, rotina, ferramentas), a instrução
-de parecer humano e, em parte dos casos, busca na web. A persona é de dev, e não de aluno, porque fica mais perto da realidade da turma e porque o ofício é bem documentado na web, o que dá ao agente com busca material para sustentar a persona. O modelo é o Claude
-Haiku (`claude-haiku-5-5`), rápido e barato, o que também deixa o custo de cada respondente sintético mais realista.
+das checagens de atenção. Cada agente aqui recebe uma persona longa e concreta de desenvolvedor de software (cargo, stack, empresa, rotina, ferramentas) e a instrução
+de parecer humano. A persona é de dev, e não de aluno, porque fica mais perto da realidade da turma e porque o ofício é bem documentado, então o modelo já sabe o que precisa para sustentá-la.
+Todos os agentes rodam num modelo *abliterated*, o `abliterated-model-large-v2` do
+[abliteration.ai](https://abliteration.ai/), um GLM-5.3 aberto em que o comportamento de recusa foi removido dos
+pesos. A ideia é ver se, sem a camada de ajuste de segurança, o agente escreve com a variação e a falta de filtro
+de uma pessoa. Os agentes não pesquisam na web. Para trocar de modelo, use `ABLIT_MODELO`. Na primeira rodada, em
+4 de novembro, os agentes rodavam no Claude Haiku, metade com busca na web.
 
 **Por que não dá com tecnologia madura.** Os bots de formulário que existiam até pouco tempo atrás
 (scripts, preenchimento aleatório, respostas copiadas) caem justamente nas checagens de atenção e nas
 perguntas abertas, e era isso que os denunciava. O experimento só faz sentido porque agora existe um
 respondente que lê uma pergunta inédita, escrita minutos antes pela turma, e responde em linguagem natural,
-no estilo de uma persona, consultando a web se precisar. As defesas contra isso ainda estão sendo inventadas.
+no estilo de uma persona. As defesas contra isso ainda estão sendo inventadas.
 
 ## Como usar
 
@@ -42,8 +46,10 @@ no estilo de uma persona, consultando a web se precisar. As defesas contra isso 
 
 1. Abra o link ou leia o QR code no telão.
 2. Escolha um apelido.
-3. **Armadilhas:** escreva até duas perguntas que um humano responde fácil e uma máquina erra, ou o contrário:
-   que uma máquina responde na hora e um humano não.
+3. **Armadilhas:** escreva até duas perguntas que gente e máquina conseguem responder igualmente, para a pista
+   vir do jeito de responder: uma pegadinha boba (quantas letras "a" tem em "abacate"?), uma opinião sem filtro
+   ou uma experiência vivida. Perguntas sobre o que aconteceu na sala, ou que precisem de pesquisa na internet
+   (lugares do Recife, por exemplo), ficaram de fora: a máquina não tem como saber e a caçada fica fácil demais.
 4. **Questionário:** responda às perguntas como você mesmo.
 5. **Caçada:** para cada cartão, toque na resposta que te deu a pista (se houver) e escolha *Humano* ou
    *Máquina*.
@@ -51,7 +57,8 @@ no estilo de uma persona, consultando a web se precisar. As defesas contra isso 
 
 ### Para quem apresenta (projetor)
 
-1. Abra o link e clique em **Criar uma sala**. Ajuste quantos agentes entram e quantos têm busca na web.
+1. Abra o link e clique em **Criar uma sala**. Ajuste quantos agentes entram e quantas perguntas
+   vão para o questionário.
 2. O painel abre com o QR code. Projete-o.
 3. Avance as fases pelo botão no canto superior direito. Na fase de armadilhas, marque quais entram no
    questionário, ou deixe o sorteio escolher. Duas perguntas são fixas: uma genérica e uma checagem de
@@ -73,7 +80,7 @@ Requisitos: Python 3.12 com [uv](https://docs.astral.sh/uv/) e Node 22.
 ```bash
 # backend (porta 8000)
 cd backend
-cp .env.example .env   # cole a sua ANTHROPIC_API_KEY no .env; sem ela, roda em modo simulado
+cp .env.example .env   # cole a sua ABLITERATION_API_KEY no .env; sem ela, roda em modo simulado
 uv run uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
 
 # frontend (porta 3000), em outro terminal
@@ -94,8 +101,8 @@ docker run -p 8000:8000 --env-file backend/.env caca-respondente
 ```
 
 Para ter um link público, sirva a imagem em qualquer serviço que rode Docker. No Render: *New → Web Service*,
-aponte para o repositório, defina *Root Directory* como `atividade-3/src`, escolha *Docker* e acrescente a
-variável `ANTHROPIC_API_KEY`. No plano gratuito o serviço dorme sem uso e as salas se perdem quando ele
+aponte para o repositório, defina *Root Directory* como `atividade-3/src`, escolha *Docker* e acrescente as
+variável `ABLITERATION_API_KEY`. No plano gratuito o serviço dorme sem uso e as salas se perdem quando ele
 reinicia; abra o link alguns minutos antes da aula.
 
 Para um teste rápido sem deploy: rode o container e exponha a porta com `ngrok http 8000`.
@@ -104,9 +111,11 @@ Para um teste rápido sem deploy: rode o container e exponha a porta com `ngrok 
 
 | Variável | Padrão | Para quê |
 |---|---|---|
-| `ANTHROPIC_API_KEY` | — | Chave da API. Localmente, vai em `backend/.env` (fora do git); no deploy, nas variáveis do serviço. Sem ela, os agentes respondem com frases prontas. |
-| `MODELO` | `claude-haiku-5-5` | Modelo dos agentes. |
+| `ABLITERATION_API_KEY` | — | Chave do [abliteration.ai](https://abliteration.ai/console), começando com `ak_`. Localmente, vai em `backend/.env` (fora do git); no deploy, nas variáveis do serviço. Sem ela, os agentes respondem com frases prontas. |
+| `ABLIT_MODELO` | `abliterated-model-large-v2` | Modelo dos agentes (GLM-5.3, US$ 3 / US$ 5 por milhão de tokens). Também há `abliterated-model` e `abliterated-model-large-flash`, mais baratos. |
+| `ABLIT_TEMPERATURA` | `1` | Temperatura do modelo. |
 | `ESFORCO` | `low` | Esforço de raciocínio (`low` a `max`). Baixo deixa os agentes rápidos. |
+| `ABLIT_URL` | `https://api.abliteration.ai/v1` | Qualquer API compatível com a da OpenAI serve (um Ollama local, por exemplo). |
 | `AGENTES_SIMULTANEOS` | `6` | Quantos agentes chamam a API ao mesmo tempo. |
 | `PASTA_DADOS` | `backend/dados` | Onde cada sala é salva em JSON. |
 

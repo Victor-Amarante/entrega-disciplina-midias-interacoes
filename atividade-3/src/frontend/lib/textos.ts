@@ -8,14 +8,12 @@ export const NOME_FASE: Record<Fase, string> = {
   placar: "Placar",
 };
 
-// Os tipos que a turma pode escolher. A checagem de atenção ficou de fora: é mais fácil para a máquina do que
-// para gente, e continua só como pergunta fixa, para comparação.
 export const TIPOS: { tipo: TipoPergunta; nome: string; dica: string; exemplo: string }[] = [
   {
-    tipo: "invertida",
-    nome: "Só máquina sabe",
-    dica: "O contrário: algo que gente não responde de cabeça e uma máquina responde na hora, certinho.",
-    exemplo: "Sem calculadora e sem pesquisar: quanto é 347 × 28?",
+    tipo: "pegadinha",
+    nome: "Pegadinha",
+    dica: "Uma pergunta boba, que qualquer um sabe responder. A diferença está na atitude: gente costuma zoar ou responder torto de propósito.",
+    exemplo: "Quantas letras “a” tem em “abacate”?",
   },
   {
     tipo: "sem_filtro",
@@ -24,28 +22,10 @@ export const TIPOS: { tipo: TipoPergunta; nome: string; dica: string; exemplo: s
     exemplo: "Qual linguagem você acha um lixo? Sem ficar em cima do muro.",
   },
   {
-    tipo: "sala",
-    nome: "Aqui na sala",
-    dica: "Algo que só quem está nesta aula agora sabe.",
-    exemplo: "Qual foi a primeira coisa que o apresentador falou hoje?",
-  },
-  {
-    tipo: "local",
-    nome: "Contexto local",
-    dica: "Algo que só quem trabalha com tecnologia no Recife sabe.",
-    exemplo: "Onde a galera de tecnologia costuma almoçar perto do Porto Digital?",
-  },
-  {
     tipo: "vivencia",
     nome: "Experiência vivida",
     dica: "Uma lembrança concreta do trabalho, com detalhe de lugar e sensação.",
     exemplo: "Conta o pior deploy que você já viu dar errado.",
-  },
-  {
-    tipo: "impossivel",
-    nome: "Evento impossível",
-    dica: "Pergunte sobre algo que nunca aconteceu, como se tivesse acontecido.",
-    exemplo: "O que você achou do Python 4 que saiu mês passado?",
   },
 ];
 
@@ -57,6 +37,7 @@ export const NOME_TIPO: Record<TipoPergunta, string> = {
   vivencia: "Experiência vivida",
   invertida: "Só máquina sabe",
   sem_filtro: "Sem filtro",
+  pegadinha: "Pegadinha",
   sala: "Aqui na sala",
 };
 

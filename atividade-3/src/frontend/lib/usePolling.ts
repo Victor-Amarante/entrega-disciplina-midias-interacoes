@@ -3,7 +3,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { ErroApi } from "./api";
 
-// Busca o estado a cada `intervalo` ms. Simples e aguenta rede ruim de celular.
 export function usePolling<T>(buscar: (() => Promise<T>) | null, intervalo: number) {
   const [dados, setDados] = useState<T | null>(null);
   const [erro, setErro] = useState<ErroApi | null>(null);

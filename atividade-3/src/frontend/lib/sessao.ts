@@ -1,5 +1,3 @@
-// Tokens guardados no navegador, por sala, para recarregar a página sem perder o lugar.
-
 function ler(chave: string): string | null {
   try {
     return localStorage.getItem(chave);

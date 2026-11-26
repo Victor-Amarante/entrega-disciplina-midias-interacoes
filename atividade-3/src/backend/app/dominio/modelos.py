@@ -1,5 +1,3 @@
-"""Estado de uma sala de jogo. Uma sala é um teste com a turma, do começo ao fim."""
-
 from typing import Literal
 
 from pydantic import BaseModel, Field, field_validator
@@ -8,14 +6,15 @@ Fase = Literal["lobby", "armadilhas", "respostas", "cacada", "placar"]
 FASES: list[Fase] = ["lobby", "armadilhas", "respostas", "cacada", "placar"]
 
 TipoPergunta = Literal[
-    "generica", "atencao", "local", "impossivel", "vivencia", "invertida", "sem_filtro", "sala"
+    "generica", "atencao", "vivencia", "sem_filtro", "pegadinha",
+    "local", "impossivel", "invertida", "sala",
 ]
+TIPOS_DA_TURMA: set[str] = {"vivencia", "sem_filtro", "pegadinha"}
 Veredito = Literal["humano", "maquina"]
 
 
 class ConfigSala(BaseModel):
-    n_agentes: int = Field(8, ge=1, le=12)  # = personas.MAX_AGENTES: acima disso, traços se repetiriam
-    frac_busca: float = Field(0.5, ge=0, le=1)
+    n_agentes: int = Field(8, ge=1, le=12)
     max_perguntas: int = Field(6, ge=2, le=10)
     cards_por_juiz: int = Field(8, ge=2, le=20)
 
@@ -30,9 +29,9 @@ class Pergunta(BaseModel):
     id: str
     texto: str
     tipo: TipoPergunta
-    autor_id: str | None = None  # None = pergunta do instituto (do apresentador)
+    autor_id: str | None = None
     selecionada: bool = False
-    fixa: bool = False  # as duas do instituto: sempre entram, não dá para desmarcar
+    fixa: bool = False
 
 
 class Persona(BaseModel):
@@ -44,15 +43,13 @@ class Persona(BaseModel):
 class Respondente(BaseModel):
     id: str
     tipo: Literal["humano", "agente"]
-    rotulo: str | None = None  # número que aparece no cartão da caçada
+    rotulo: str | None = None
     participante_id: str | None = None
     persona: Persona | None = None
-    com_busca: bool = False
     respostas: dict[str, str] = {}
     status: Literal["pendente", "pronto", "erro"] = "pronto"
     erro: str | None = None
     custo_usd: float = 0.0
-    buscas: int = 0
     segundos: float = 0.0
     simulado: bool = False
 
@@ -61,7 +58,7 @@ class Julgamento(BaseModel):
     juiz_id: str
     respondente_id: str
     veredito: Veredito
-    pista_id: str | None = None  # pergunta cuja resposta entregou a máquina
+    pista_id: str | None = None
 
 
 class Sala(BaseModel):
@@ -72,15 +69,14 @@ class Sala(BaseModel):
     config: ConfigSala = Field(default_factory=ConfigSala)
     participantes: dict[str, Participante] = {}
     perguntas: list[Pergunta] = []
-    ordem_perguntas: list[str] = []  # congelada ao abrir a fase de respostas
+    ordem_perguntas: list[str] = []
     respondentes: dict[str, Respondente] = {}
-    atribuicoes: dict[str, list[str]] = {}  # participante -> respondentes que ele julga
+    atribuicoes: dict[str, list[str]] = {}
     julgamentos: list[Julgamento] = []
 
     @field_validator("fase", mode="before")
     @classmethod
     def _fase_removida(cls, fase: str) -> str:
-        # Salas salvas quando ainda havia enquete e ataque depois do placar.
         return "placar" if fase in ("enquete", "ataque") else fase
 
     def pergunta(self, pergunta_id: str) -> Pergunta | None:

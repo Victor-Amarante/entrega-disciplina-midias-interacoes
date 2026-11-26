@@ -12,7 +12,6 @@ export function Cacada({ visao, enviar }: PropsFase) {
   const primeiroPendente = cartoes.findIndex((c) => !c.meu_veredito);
   const [indice, setIndice] = useState<number | null>(null);
   const [pista, setPista] = useState<string | null>(null);
-  // Disse "máquina" sem marcar pista: pede a resposta que entregou antes de enviar.
   const [pedindoPista, setPedindoPista] = useState(false);
   const [erro, setErro] = useState<string | null>(null);
   const [enviando, setEnviando] = useState(false);
@@ -44,7 +43,7 @@ export function Cacada({ visao, enviar }: PropsFase) {
         pista_id: veredito === "maquina" ? pistaEscolhida : null,
       });
       setPedindoPista(false);
-      setIndice(null); // volta para o próximo cartão sem veredito
+      setIndice(null);
     } catch (e) {
       setErro((e as Error).message);
     }

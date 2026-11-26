@@ -1,5 +1,3 @@
-"""Resultado da caçada: quem acertou, quais armadilhas pegaram máquinas e a que custo."""
-
 from collections import defaultdict
 
 from ..dominio.modelos import Julgamento, Sala
@@ -13,6 +11,7 @@ ROTULO_TIPO = {
     "invertida": "só máquina sabe",
     "sem_filtro": "sem filtro",
     "sala": "aqui na sala",
+    "pegadinha": "pegadinha",
 }
 
 
@@ -43,8 +42,6 @@ def calcular(sala: Sala) -> dict:
     def taxa_deteccao(lista: list[Julgamento]) -> float | None:
         return _taxa(disseram_maquina(lista), len(lista))
 
-    com_busca = [j for j in em_agentes if respondentes[j.respondente_id].com_busca]
-    sem_busca = [j for j in em_agentes if not respondentes[j.respondente_id].com_busca]
     pegos, acusados = disseram_maquina(em_agentes), disseram_maquina(em_humanos)
 
     resultado = {
@@ -53,13 +50,8 @@ def calcular(sala: Sala) -> dict:
         "taxa_acerto": _taxa(acertos, len(julgamentos)),
         "taxa_deteccao": taxa_deteccao(em_agentes),
         "taxa_falsa_acusacao": taxa_deteccao(em_humanos),
-        "deteccao_com_busca": taxa_deteccao(com_busca),
-        "deteccao_sem_busca": taxa_deteccao(sem_busca),
         "n_julgamentos_agentes": len(em_agentes),
         "n_julgamentos_humanos": len(em_humanos),
-        "n_julgamentos_com_busca": len(com_busca),
-        "n_julgamentos_sem_busca": len(sem_busca),
-        # Veredito × verdade: na diagonal (pegos, reconhecidos) a turma acertou.
         "matriz": {
             "agentes_pegos": pegos,
             "agentes_passaram": len(em_agentes) - pegos,
@@ -110,7 +102,6 @@ def _armadilhas(sala: Sala, julgamentos: list[Julgamento]) -> list[dict]:
 
 
 def _votos_maquina(julgamentos: list[Julgamento]) -> dict[str, list[int]]:
-    """respondente -> [votos máquina, total de votos]"""
     contagem: dict[str, list[int]] = defaultdict(lambda: [0, 0])
     for j in julgamentos:
         contagem[j.respondente_id][1] += 1
@@ -128,7 +119,6 @@ def _cartao(sala: Sala, respondente_id: str, maquina: int, total: int) -> dict:
         "votos_maquina": maquina,
         "votos": total,
         "persona": r.persona.model_dump() if r.persona else None,
-        "com_busca": r.com_busca,
         "respostas": [
             {"pergunta": p.texto, "resposta": r.respostas.get(p.id, "")}
             for p in sala.perguntas_em_ordem()
@@ -152,7 +142,7 @@ def _humano_mais_suspeito(sala: Sala, julgamentos: list[Julgamento]) -> dict | N
     if maquina == 0:
         return None
     cartao = _cartao(sala, rid, maquina, total)
-    cartao["persona"] = None  # é uma pessoa da turma: aparece só pelo número do cartão
+    cartao["persona"] = None
     return cartao
 
 
@@ -162,8 +152,6 @@ def _custo_medio(sala: Sala) -> float | None:
 
 
 def _auditoria(sala: Sala, julgamentos: list[Julgamento]) -> dict:
-    """Todos os vereditos, jogador por jogador, para conferir o placar.
-    Os humanos julgados aparecem só pelo número do cartão."""
     numero = {p.id: i for i, p in enumerate(sala.perguntas_em_ordem(), start=1)}
     contagem = _votos_maquina(julgamentos)
     em_jogo = sorted(
@@ -203,7 +191,6 @@ def _vezes(n: int) -> str:
 
 
 def _leituras(r: dict) -> list[str]:
-    """O placar em frases, para quem olha o telão sem parar para ler as taxas."""
     n = r["julgamentos"]
     if not n:
         return []
@@ -229,16 +216,6 @@ def _leituras(r: dict) -> list[str]:
             )
         else:
             leituras.append("Nenhum humano foi acusado de ser máquina.")
-
-    cb, sb = r["deteccao_com_busca"], r["deteccao_sem_busca"]
-    if cb is not None and sb is not None:
-        numeros = f"com busca, foram pegos em {_pct(cb)} dos vereditos; sem busca, em {_pct(sb)}"
-        if abs(cb - sb) < 0.15:
-            leituras.append(f"Pesquisar na web não fez diferença visível: {numeros}.")
-        elif cb < sb:
-            leituras.append(f"Pesquisar na web ajudou os agentes a se esconder: {numeros}.")
-        else:
-            leituras.append(f"Pesquisar na web não ajudou os agentes: {numeros}.")
 
     armadilhas = r["armadilhas"]
     melhor = armadilhas[0] if armadilhas else None

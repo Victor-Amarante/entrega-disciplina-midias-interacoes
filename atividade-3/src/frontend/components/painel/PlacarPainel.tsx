@@ -51,18 +51,6 @@ export function PlacarPainel({ painel }: PropsPainel) {
 
       <div className="grade">
         <Numero
-          valor={pct(p.deteccao_sem_busca)}
-          rotulo="agentes sem busca pegos"
-          detalhe={`em ${p.n_julgamentos_sem_busca} vereditos`}
-          pequeno
-        />
-        <Numero
-          valor={pct(p.deteccao_com_busca)}
-          rotulo="agentes com busca na web 🔎 pegos"
-          detalhe={`em ${p.n_julgamentos_com_busca} vereditos`}
-          pequeno
-        />
-        <Numero
           valor={usd(p.custo_medio_agente_usd)}
           rotulo="custo médio de um respondente sintético"
           detalhe="o questionário inteiro, ao preço de API de hoje"
@@ -171,7 +159,6 @@ function Armadilhas({ p }: { p: Placar }) {
 
 function Auditoria({ p }: { p: Placar }) {
   const { cartoes, jogadores } = p.auditoria;
-  // O backend manda os agentes primeiro, depois os humanos.
   const nAgentes = cartoes.filter((c) => c.verdade === "maquina").length;
   return (
     <div className="cartao">
@@ -201,11 +188,11 @@ function Auditoria({ p }: { p: Placar }) {
               <th>Jogador</th>
               <th>Acertos</th>
               {cartoes.map((c) => (
-                <th key={c.id} title={c.persona ? `${c.persona.nome}${c.com_busca ? " · com busca" : ""}` : "humano"}>
+                <th key={c.id} title={c.persona ? c.persona.nome : "humano"}>
                   #{c.rotulo}
                   <div>
                     <span className={`chip ${c.verdade}`}>
-                      {c.verdade === "maquina" ? `🤖${c.com_busca ? "🔎" : ""}` : "🧑"}
+                      {c.verdade === "maquina" ? "🤖" : "🧑"}
                     </span>
                   </div>
                 </th>
@@ -297,7 +284,6 @@ function Revelado({ titulo, cartao, cor }: { titulo: string; cartao: CartaoRevel
       {cartao.persona && (
         <p className="pequeno">
           <strong>{cartao.persona.nome}</strong>, {cartao.persona.resumo}
-          {cartao.com_busca ? " · com busca 🔎" : ""}
         </p>
       )}
       {cartao.respostas.map((r, i) => (

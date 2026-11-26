@@ -1,5 +1,3 @@
-"""Rotas do apresentador: criar a sala, mudar de fase, escolher as armadilhas."""
-
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import JSONResponse
 
@@ -25,7 +23,6 @@ async def painel(s: HostDep):
 
 @rotas.get("/salas/{codigo}/dados")
 async def baixar_dados(s: HostDep):
-    """Tudo o que aconteceu na sala, para o REGISTRO.md. Sem os tokens de acesso."""
     dados = s.model_dump(exclude={"host_token": True, "participantes": {"__all__": {"token"}}})
     dados["placar"] = placar.calcular(s)
     return JSONResponse(

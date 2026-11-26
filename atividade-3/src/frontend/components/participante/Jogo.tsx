@@ -25,7 +25,6 @@ export function Jogo({ codigo }: { codigo: string }) {
   );
   const { dados: visao, erro, atualizar } = usePolling(token ? buscar : null, 2000);
 
-  // Token que o servidor não reconhece (sala recriada, por exemplo): pede o apelido de novo.
   useEffect(() => {
     if (erro?.status === 401) {
       guardarTokenParticipante(codigo, null);

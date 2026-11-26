@@ -12,7 +12,6 @@ export function Questionario({ visao, enviar }: PropsFase) {
   const [erro, setErro] = useState<string | null>(null);
   const [enviando, setEnviando] = useState(false);
 
-  // Recarregou a página depois de enviar: mostra o que já foi salvo.
   useEffect(() => {
     if (jaEnviou && !editando) setRespostas(salvas);
     // eslint-disable-next-line react-hooks/exhaustive-deps

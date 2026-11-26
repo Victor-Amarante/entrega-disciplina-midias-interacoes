@@ -1,6 +1,3 @@
-// Chamadas ao backend. Em produção o site e a API estão no mesmo endereço;
-// em desenvolvimento a API roda na porta 8000 da mesma máquina.
-
 function base(): string {
   if (process.env.NEXT_PUBLIC_API_URL) return process.env.NEXT_PUBLIC_API_URL;
   if (process.env.NODE_ENV === "development" && typeof window !== "undefined") {

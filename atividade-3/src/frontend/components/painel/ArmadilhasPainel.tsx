@@ -12,7 +12,6 @@ export function ArmadilhasPainel({ painel, acao }: PropsPainel) {
   const doInstituto = painel.perguntas.filter((p) => !p.autor);
   const selecionadas = painel.perguntas.filter((p) => p.selecionada).length;
   const max = painel.config.max_perguntas;
-  // Depois de fechado, mostra só o que entrou de fato no questionário.
   const lista = fechado
     ? painel.perguntas.filter((p) => p.no_questionario)
     : [...doInstituto, ...daTurma];
