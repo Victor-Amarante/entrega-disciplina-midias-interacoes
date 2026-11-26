@@ -46,9 +46,10 @@ questionário: as duas fixas (a genérica e a checagem de atenção) e três arm
   sem acento ("reuniao", "voce"), abreviando, com preguiça ("sei la") ou deixando passar um erro de
   digitação. O prompt também pede o contrário de ser interessante. No teste com duas pessoas, o que ainda
   entregava os agentes era o esforço: para "qual é a cor do Sol?", os humanos responderam "Amarelo" e os
-  quatro agentes, coisas como "amarela, mais pra laranja se vc olha direto, mas n devia olhar rs". Agora, pergunta boba leva de
-  uma a três palavras, sem "mas", sem piada e sem referência esperta. Quando o modelo solta um caractere fora
-  do alfabeto ou corta uma resposta, como aconteceu nesse teste ("Com驿... não sei"), o agente responde de novo.
+  quatro agentes, coisas como "amarela, mais pra laranja se vc olha direto, mas n devia olhar rs". Agora,
+  pergunta boba leva de uma a três palavras, sem "mas", sem piada e sem referência esperta. Quando o modelo
+  solta um caractere fora do alfabeto ou corta uma resposta, como aconteceu nesse teste ("Com驿... não sei"), o
+  agente responde de novo.
 - **Agentes que não se repetem.** *(Por causa das respostas homogêneas.)* Mesmo com personas e estilos
   diferentes, os agentes caíam na resposta mais provável do modelo: num teste com oito agentes, seis disseram
   que a prática que todo mundo finge seguir é "code review de verdade". Agora eles respondem em fila, dois de
@@ -83,7 +84,8 @@ questionário: as duas fixas (a genérica e a checagem de atenção) e três arm
   acaso: quanto daria dizendo "máquina" para todos os cartões, sem ler nada. A régua muda com a sala. Com
   cartões meio a meio, fica em 50%, mas no teste com duas pessoas cada uma recebeu quatro agentes e um humano,
   e a régua foi a 80%. Os 60% de acerto daquele teste, que pareciam bons perto de uma moeda, estavam abaixo
-  do acaso.
+  do acaso. Quando só uma pessoa joga, todos os cartões são agentes, a régua vai a 100% e o placar avisa que
+  não há o que medir, em vez de dizer que os agentes se disfarçaram.
 
 ## O que decidi não mudar, e por quê
 
